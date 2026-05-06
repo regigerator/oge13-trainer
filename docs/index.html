@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>OGE RAID — №13 v2</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="brand"><div class="mark">13</div><div><p class="ey">OGE RAID</p><h1>Миссия №13: неравенства</h1></div></div>
+    <div class="controls"><button id="studentMode" class="btn on">Ученик</button><button id="adminMode" class="btn">Админ</button><button class="btn" id="reset">Сбросить рейд</button></div>
+  </header>
+  <section class="status"><div><span class="lab">Прогресс</span><strong id="pt">0 / 0</strong></div><div class="bar"><div class="fill" id="fill"></div></div><div><span class="lab">Режим</span><strong id="modeLabel">ученик</strong></div></section>
+  <div class="grid"><aside class="side"><span class="lab">Лестница</span><h3>от прямой к системе</h3><nav class="nav" id="nav"></nav></aside><main class="main" id="main" tabindex="-1"></main></div>
+</div>
+<script src="app.js"></script>
+</body>
+</html>
