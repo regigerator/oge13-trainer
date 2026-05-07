@@ -1,6 +1,2716 @@
-(()=>{const PREFIX='oge13-v4:',STUDENT='Ученик';const ray=(e,p,d,min=-6,max=6,l='')=>({k:'ray',e,p,d,min,max,l});const seg=(a,b,ap,bp,min=-1,max=8)=>({k:'seg',a,b,ap,bp,min,max});const pt=(e,min=-3,max=3,l='')=>({k:'pt',e,min,max,l});const emp=(min=-1,max=6)=>({k:'emp',min,max});
-const blocks=[['b1','Больше/меньше','Разведка',['x > 3: пустая точка на 3, штриховка вправо, 3 не входит.','x ≥ 3: закрашенная точка на 3, штриховка вправо, 3 входит.','x < 3: пустая точка на 3, штриховка влево, 3 не входит.','x ≤ 3: закрашенная точка на 3, штриховка влево, 3 входит.'],3],['b2','Графики','Прицел',['Больше — вправо. Меньше — влево.','Строгие знаки > и < дают пустую точку.','Нестрогие знаки ≥ и ≤ дают закрашенную точку.'],1],['b3','Бесконечность','Коридор',['(3; +∞) = больше 3, 3 не входит.','[3; +∞) = больше или равно 3.','(-∞; 3) = меньше 3.','Бесконечность всегда с круглой скобкой.'],1],['b4','Отрезки','Периметр',['(2; 5): края не входят.','[2; 5]: оба края входят.','Круглая скобка = пустая точка. Квадратная = закрашенная.'],1],['b5','Дроби','Калибровка',['1/2 = 0,5; 3/2 = 1,5; 13/5 = 2,6.','-11/10 = -1,1.','На прямой правее находится большее число.'],1],['b6','Построение','Руки',['Сначала отметь точку на прямой.','Потом выбери направление.','Потом выбери тип точки: пустая или закрашенная.'],1],['b7','Линейные','Алгебра',['Сначала приведи к виду x ... число.','При переносе числа через знак меняй знак числа.','После алгебры построй ответ на прямой.'],1],['b8','Системы','Финал',['Система = оба условия сразу.','Решение системы = общая часть двух штриховок.','Если общей части нет — нет решений.'],1]];
-const baseTasks=[{id:'b1-1',b:'b1',ty:'graph',q:'Выбери график для x > 3.',x:'x > 3',c:ray(3,'o','r',-1,7),o:[ray(3,'o','r',-1,7),ray(3,'c','r',-1,7),ray(3,'o','l',-1,7),ray(4,'o','r',-1,7)],h:'Больше — вправо. Строгий знак > — пустая точка.',s:'x > 3: пустая точка на 3, штриховка вправо.'},{id:'b1-2',b:'b1',ty:'graph',q:'Выбери график для x ≥ 3.',x:'x ≥ 3',c:ray(3,'c','r',-1,7),o:[ray(3,'o','r',-1,7),ray(3,'c','r',-1,7),ray(3,'c','l',-1,7),ray(2,'c','r',-1,7)],h:'≥ значит, что число входит. Точка закрашенная.',s:'x ≥ 3: закрашенная точка на 3, вправо.'},{id:'b1-3',b:'b1',ty:'graph',q:'Выбери график для x < 3.',x:'x < 3',c:ray(3,'o','l',-1,7),o:[ray(3,'o','r',-1,7),ray(3,'c','l',-1,7),ray(3,'o','l',-1,7),ray(4,'o','l',-1,7)],h:'Меньше — влево. Строгий знак < — пустая точка.',s:'x < 3: пустая точка на 3, влево.'},{id:'b1-4',b:'b1',ty:'graph',q:'Выбери график для x ≤ 3.',x:'x ≤ 3',c:ray(3,'c','l',-1,7),o:[ray(3,'c','r',-1,7),ray(3,'o','l',-1,7),ray(2,'c','l',-1,7),ray(3,'c','l',-1,7)],h:'≤ — влево и точка закрашенная.',s:'x ≤ 3: закрашенная точка на 3, влево.'},{id:'b2-1',b:'b2',ty:'graph',q:'Выбери график для x ≥ -2.',x:'x ≥ -2',c:ray(-2,'c','r',-5,4),o:[ray(-2,'c','r',-5,4),ray(-2,'o','r',-5,4),ray(-2,'c','l',-5,4),ray(-3,'c','r',-5,4)],h:'≥ — вправо и точка закрашенная.',s:'x ≥ -2: закрашенная точка на -2, вправо.'},{id:'b2-2',b:'b2',ty:'graph',q:'Выбери график для x < 0.',x:'x < 0',c:ray(0,'o','l',-4,4),o:[ray(0,'o','r',-4,4),ray(0,'c','l',-4,4),ray(1,'o','l',-4,4),ray(0,'o','l',-4,4)],h:'Меньше нуля — слева от 0.',s:'x < 0: пустая точка на 0, влево.'},{id:'b3-1',b:'b3',ty:'notation',q:'Выбери запись по графику.',stim:ray(3,'c','r',-1,7),labels:['(3; +∞)','[3; +∞)','(-∞; 3]','[2; +∞)'],answer:1,h:'Закрашенная точка — квадратная скобка. Вправо — +∞.',s:'Закрашенная точка на 3 и вправо: [3; +∞).'},{id:'b3-2',b:'b3',ty:'notation',q:'Выбери запись по графику.',stim:ray(-2,'o','l',-6,2),labels:['(-∞; -2)','(-∞; -2]','(-2; +∞)','(-∞; -3)'],answer:0,h:'Влево значит -∞ слева. Пустая точка — круглая скобка.',s:'Пустая точка на -2 и влево: (-∞; -2).'},{id:'b3-3',b:'b3',ty:'graph',q:'Выбери график для [3; +∞).',x:'[3; +∞)',c:ray(3,'c','r',-1,7),o:[ray(3,'o','r',-1,7),ray(3,'c','r',-1,7),ray(3,'c','l',-1,7),ray(2,'c','r',-1,7)],h:'Квадратная скобка — число входит. +∞ — вправо.',s:'[3; +∞) = x ≥ 3.'},{id:'b4-1',b:'b4',ty:'graph',q:'Выбери график для (2; 5).',x:'(2; 5)',c:seg(2,5,'o','o',0,7),o:[seg(2,5,'o','o',0,7),seg(2,5,'c','c',0,7),seg(2,5,'o','c',0,7),seg(1,5,'o','o',0,7)],h:'Круглые скобки — обе точки пустые.',s:'(2; 5): участок между 2 и 5, точки пустые.'},{id:'b4-2',b:'b4',ty:'graph',q:'Выбери график для (2; 5].',x:'(2; 5]',c:seg(2,5,'o','c',0,7),o:[seg(2,5,'c','o',0,7),seg(2,5,'o','c',0,7),seg(2,5,'o','o',0,7),seg(3,5,'o','c',0,7)],h:'У 2 круглая скобка, у 5 квадратная.',s:'(2; 5]: 2 пустая, 5 закрашенная.'},{id:'b5-1',b:'b5',ty:'text',q:'Что правее на числовой прямой: 2 или 13/5?',labels:['2','13/5'],answer:1,h:'13 : 5 = 2,6.',s:'13/5 = 2,6, поэтому правее числа 2.',err:'fraction_order_error'},{id:'b5-2',b:'b5',ty:'text',q:'Что левее: -1 или -1,5?',labels:['-1','-1,5'],answer:1,h:'У отрицательных чисел дальше влево меньшее число.',s:'-1,5 меньше, чем -1.',err:'fraction_order_error'},{id:'b5-3',b:'b5',ty:'point',q:'Поставь точку -0,6 на числовой прямой.',target:pt(-.6,-2,2,'-0,6'),sn:[-2,-1.5,-1.1,-1,-.6,-.5,0,.5,1,1.5,2],h:'-0,6 левее нуля, но правее -1.',s:'-0,6 стоит между -1 и 0.',err:'fraction_order_error'},{id:'b5-4',b:'b5',ty:'graph',q:'Выбери график для x ≤ -11/10.',x:'x ≤ -11/10',c:ray(-1.1,'c','l',-3,1,'-11/10'),o:[ray(-1.1,'c','r',-3,1,'-11/10'),ray(-1.1,'o','l',-3,1,'-11/10'),ray(-1.1,'c','l',-3,1,'-11/10'),ray(-1,'c','l',-3,1,'-1')],h:'-11/10 = -1,1. ≤ — влево и точка закрашенная.',s:'x ≤ -11/10: точка закрашенная на -1,1, штриховка влево.'},{id:'b6-1',b:'b6',ty:'build',q:'Построй x ≥ -2.',x:'x ≥ -2',c:ray(-2,'c','r',-5,4),sn:[-5,-4,-3,-2,-1,0,1,2,3,4],h:'Сначала нажми -2. Потом направление вправо. Потом закрашенная точка.',s:'Закрашенная точка на -2, вправо.'},{id:'b6-2',b:'b6',ty:'build',q:'Построй x < 4.',x:'x < 4',c:ray(4,'o','l',-1,7),sn:[-1,0,1,2,3,4,5,6,7],h:'Сначала нажми 4. Потом направление влево. Потом пустая точка.',s:'Пустая точка на 4, влево.'},{id:'b7-1',b:'b7',ty:'alg',q:'Реши x + 5 ≥ 1, затем построй ответ.',ineq:'x + 5 ≥ 1',red:'x ≥ ?',alg:-4,c:ray(-4,'c','r',-6,2),sn:[-6,-5,-4,-3,-2,-1,0,1,2],h:'Чтобы убрать +5, перенеси 5 вправо с минусом.',s:'x + 5 ≥ 1\nx ≥ 1 - 5\nx ≥ -4\nЗакрашенная точка на -4, вправо.'},{id:'b7-2',b:'b7',ty:'alg',q:'Реши 2x > 6, затем построй ответ.',ineq:'2x > 6',red:'x > ?',alg:3,c:ray(3,'o','r',0,7),sn:[0,1,2,3,4,5,6,7],h:'Раздели обе части на 2. Знак не меняется.',s:'2x > 6\nx > 3\nПустая точка на 3, вправо.'},{id:'b8-1',b:'b8',ty:'sys',q:'Реши систему: x > -4 и x < -1.',sys:'x > -4 и x < -1',ineq:[{label:'x > -4',c:ray(-4,'o','r',-6,1),sn:[-6,-5,-4,-3,-2,-1,0,1]},{label:'x < -1',c:ray(-1,'o','l',-6,1),sn:[-6,-5,-4,-3,-2,-1,0,1]}],final:seg(-4,-1,'o','o',-6,1),fo:[seg(-4,-1,'o','o',-6,1),seg(-4,-1,'c','c',-6,1),ray(-1,'o','l',-6,1),emp(-6,1)],labels:['(-4; -1)','[-4; -1]','(-∞; -1)','Нет решений'],h:'Нужно быть правее -4 и левее -1.',s:'Перекрытие между -4 и -1: (-4; -1).'},{id:'b8-2',b:'b8',ty:'sys',q:'Реши систему: x > 4 и x < 3.',sys:'x > 4 и x < 3',ineq:[{label:'x > 4',c:ray(4,'o','r',0,6),sn:[0,1,2,3,4,5,6]},{label:'x < 3',c:ray(3,'o','l',0,6),sn:[0,1,2,3,4,5,6]}],final:emp(0,6),fo:[seg(3,4,'o','o',0,6),ray(4,'o','r',0,6),ray(3,'o','l',0,6),emp(0,6)],labels:['(3; 4)','(4; +∞)','(-∞; 3)','Нет решений'],h:'Можно ли одновременно быть больше 4 и меньше 3?',s:'Общей части нет: нет решений.'}];
-let custom=load('custom',[]);let tasks=[...baseTasks,...custom];const bd=Object.fromEntries(blocks.map(b=>[b[0],b]));let prog=load('progress',{i:0,done:{},meta:{}}),log=load('log',[]),mode=load('mode','student'),st={choice:null,bld:{},pts:{},alg:{},sys:{},fb:null,await:null},lc={};const E={main:gid('main'),nav:gid('nav'),pt:gid('pt'),fill:gid('fill'),modeLabel:gid('modeLabel'),studentBtn:gid('studentMode'),adminBtn:gid('adminMode')};gid('reset').onclick=reset;E.studentBtn.onclick=()=>{mode='student';saveMode();render()};E.adminBtn.onclick=()=>{mode='admin';saveMode();render()};document.addEventListener('click',click);document.addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target.id==='algInput'){e.preventDefault();check()}});render();
-function gid(x){return document.getElementById(x)}function load(k,f){try{return JSON.parse(localStorage.getItem(PREFIX+k))??f}catch{return f}}function save(){localStorage.setItem(PREFIX+'progress',JSON.stringify(prog));localStorage.setItem(PREFIX+'log',JSON.stringify(log));localStorage.setItem(PREFIX+'custom',JSON.stringify(custom))}function saveMode(){localStorage.setItem(PREFIX+'mode',JSON.stringify(mode))}function cur(){return tasks[prog.i]}function meta(t){prog.meta[t.id]??={a:0,w:0,h:false,th:false,sol:false,open:null,start:Date.now()};return prog.meta[t.id]}function norm(){while(prog.i<tasks.length&&prog.done[tasks[prog.i].id]&&st.await!==tasks[prog.i].id)prog.i++}function render(){tasks=[...baseTasks,...custom];norm();lc={};status();nav();E.modeLabel.textContent=mode==='admin'?'админ':'ученик';E.studentBtn.classList.toggle('on',mode==='student');E.adminBtn.classList.toggle('on',mode==='admin');if(mode==='admin')return admin();if(prog.i>=tasks.length)return report();let t=cur();if(prog.done[t.id]&&st.await===t.id)return done(t);taskView(t)}function status(){let c=Object.keys(prog.done).filter(id=>tasks.some(t=>t.id===id)).length;E.pt.textContent=`${c} / ${tasks.length}`;E.fill.style.width=(tasks.length?Math.round(c/tasks.length*100):0)+'%'}function nav(){E.nav.innerHTML=blocks.map((b,i)=>{let ts=tasks.filter(t=>t.b===b[0]),c=ts.filter(t=>prog.done[t.id]).length,on=cur()&&cur().b===b[0];return `<div class="navI ${on?'on':''} ${c===ts.length&&ts.length?'done':''}"><span class="idx">${i+1}</span><span><b>${esc(b[1])}</b><br><small>${esc(b[2])} · ${c}/${ts.length}</small></span></div>`}).join('')}function taskView(t){let b=bd[t.b],m=meta(t),open=m.open!==null?m.open:tasks.slice(0,prog.i).filter(x=>x.b===t.b&&prog.done[x.id]).length<(b[4]||0);E.main.innerHTML=`${head(t,b)}${theory(b,open)}${feed()}<section class="body">${body(t)}</section>${m.sol?`<section class="solution">${esc(t.s)}</section>`:''}<div class="actions"><button class="btn soft" data-a="hint">Подсказка</button>${m.w>=2||m.sol?`<button class="btn" data-a="solution">Показать решение</button>`:''}<button class="btn primary" data-a="check">Проверить</button></div>`}function head(t,b){return `<section class="head"><div><span class="badge">${esc(b[2])}</span><h2 class="title">${esc(t.q)}</h2><p class="muted">${esc(b[1])}</p></div><div class="counter">${prog.i+1}/${tasks.length}</div></section>`}function theory(b,o){return o?`<section class="theory"><div class="theoryTop"><h3>Короткая теория</h3><button class="btn" data-a="closeTheory">Свернуть</button></div><ul>${b[3].map(x=>`<li>${esc(x)}</li>`).join('')}</ul></section>`:`<div class="collapsed"><span>Теория свернута. Можно открыть её в любой момент.</span><button class="btn soft" data-a="openTheory">Открыть теорию</button></div>`}function feed(){return st.fb?`<section class="feed ${st.fb.k}"><p>${esc(st.fb.m)}</p></section>`:''}function body(t){if(t.ty==='graph')return graphChoice(t);if(t.ty==='notation'||t.ty==='text')return textChoice(t);if(t.ty==='point')return pointTask(t);if(t.ty==='build')return build(t,'b:'+t.id,t.c,t.sn);if(t.ty==='alg')return alg(t);if(t.ty==='sys')return sys(t);return ''}function graphChoice(t){let sel=st.choice&&st.choice.id===t.id?st.choice.i:null;return `<div class="chip">${esc(t.x||t.q)}</div><div class="choices">${t.o.map((g,i)=>`<button class="choice ${sel===i?'sel':''}" data-a="choice" data-i="${i}"><span class="cl">${String.fromCharCode(65+i)}</span>${svg(g,{compact:true})}</button>`).join('')}</div>`}function textChoice(t){let sel=st.choice&&st.choice.id===t.id?st.choice.i:null;let stim=t.stim?`<div class="box" style="padding:12px"><span class="lab">Дан график</span>${svg(t.stim,{large:true})}</div>`:'';return `${stim}<p class="taskHint">Выбери запись. Здесь нужно читать скобки, а не искать такой же рисунок.</p><div class="choices">${t.labels.map((o,i)=>`<button class="choice textOnly ${sel===i?'sel':''}" data-a="choice" data-i="${i}"><span class="cl">${String.fromCharCode(65+i)}</span><span class="ct">${esc(o)}</span></button>`).join('')}</div>`}function pointTask(t){let v=st.pts[t.id],g=v===undefined?{k:'blank',min:t.target.min,max:t.target.max}:pt(v,t.target.min,t.target.max);return `<div class="chip">${esc(t.target.l||fmt(t.target.e))}</div><div class="interactive">${svg(g,{interactive:true,mode:'point',key:'p:'+t.id,sn:t.sn,min:t.target.min,max:t.target.max,large:true})}</div><p class="read">Выбрано: ${v===undefined?'пока нет точки':fmt(v)}</p>`}function build(t,key,c,sn){let b=builder(key),has=b.e!==null&&b.e!==undefined,g=has?ray(b.e,b.p||'o',b.d||'r',c.min,c.max):{k:'blank',min:c.min,max:c.max};return `<div class="chip">${esc(t.x||rel(c))}</div><div class="builder"><div class="stepLine"><span class="pill ${has?'done':''}">1. Отметь точку</span><span class="pill ${b.d?'done':''}">2. Выбери направление</span><span class="pill ${b.p?'done':''}">3. Выбери тип точки</span></div><div class="interactive">${svg(g,{interactive:true,mode:'build',key,sn,min:c.min,max:c.max,large:true})}</div><p class="read">Число: ${has?fmt(b.e):'нажми на прямую'}</p><div class="row"><span>Направление</span><button class="seg ${b.d==='l'?'on':''}" data-a="bf" data-k="${key}" data-f="d" data-v="l">← влево</button><button class="seg ${b.d==='r'?'on':''}" data-a="bf" data-k="${key}" data-f="d" data-v="r">вправо →</button></div><div class="row"><span>Тип точки</span><button class="seg ${b.p==='o'?'on':''}" data-a="bf" data-k="${key}" data-f="p" data-v="o">○ пустая</button><button class="seg ${b.p==='c'?'on':''}" data-a="bf" data-k="${key}" data-f="p" data-v="c">● закрашенная</button></div></div>`}function alg(t){if((st.alg[t.id]||'alg')==='build')return `<div class="box" style="padding:12px"><span class="lab">Шаг 2</span><strong>Теперь построй ответ: ${rel(t.c)}</strong></div>${build(t,'a:'+t.id,t.c,t.sn)}`;return `<div class="chip">${esc(t.ineq)}</div><div class="inpRow"><label for="algInput">${esc(t.red)}</label><input id="algInput" class="inp" placeholder="число"></div>`}function sys(t){let n=st.sys[t.id]||0,steps=[`Построй ${t.ineq[0].label}`,`Построй ${t.ineq[1].label}`,'Выбери итоговое пересечение'],sh=`<div class="steps">${steps.map((s,i)=>`<div class="step ${n===i?'on':''} ${n>i?'done':''}"><b>${i+1}</b><span>${esc(s)}</span></div>`).join('')}</div>`;if(n<2){let q=t.ineq[n];return `<div class="chip">${esc(q.label)}</div>${sh}${build(t,`s:${t.id}:${n}`,q.c,q.sn)}`}let sel=st.choice&&st.choice.id===t.id?st.choice.i:null;return `<div class="chip">${esc(t.sys)}</div>${sh}<p class="taskHint">Система = оба условия сразу. Выбери общую часть.</p><div class="choices">${t.fo.map((g,i)=>`<button class="choice ${sel===i?'sel':''}" data-a="choice" data-i="${i}"><span class="cl">${String.fromCharCode(65+i)}</span><span class="ct">${esc(t.labels[i])}</span>${svg(g,{compact:true})}</button>`).join('')}</div>`}
-function click(e){let s=e.target.closest('svg[data-key]');if(s)return lineClick(e,s);let b=e.target.closest('[data-a]');if(!b)return;let t=cur(),a=b.dataset.a;if(a==='choice'){st.choice={id:t.id,i:+b.dataset.i};st.fb=null;render()}else if(a==='bf'){builder(b.dataset.k)[b.dataset.f]=b.dataset.v;st.fb=null;render()}else if(a==='check')check();else if(a==='hint')hint(t);else if(a==='solution')solution(t);else if(a==='openTheory')openTheory(t);else if(a==='closeTheory')closeTheory(t);else if(a==='next')next();else if(a==='copy')copy();else if(a==='addTask')addTask();else if(a==='export')exportData();else if(a==='clearLog')clearLog()}function lineClick(e,s){let c=lc[s.dataset.key];if(!c)return;let r=s.getBoundingClientRect(),vw=+s.getAttribute('viewBox').split(' ')[2],x=((e.clientX-r.left)/r.width)*vw,v=nearest(c.min+((x-c.pad)/(c.w-c.pad*2))*(c.max-c.min),c.sn||def(c.min,c.max));if(c.mode==='point')st.pts[cur().id]=v;else builder(s.dataset.key).e=v;st.fb=null;render()}function check(){let t=cur();if(t.ty==='graph')return checkGraph(t);if(t.ty==='notation'||t.ty==='text')return checkText(t);if(t.ty==='point')return checkPoint(t);if(t.ty==='build')return checkBuild(t,'b:'+t.id,t.c);if(t.ty==='alg')return checkAlg(t);if(t.ty==='sys')return checkSys(t)}function pick(t){let i=st.choice&&st.choice.id===t.id?st.choice.i:null;return i===undefined?null:i}function checkGraph(t){let i=pick(t);if(i===null)return warn('Сначала выбери вариант.');let r=evalG(t.o[i],t.c,t);rec(t,String.fromCharCode(65+i),fg(t.c),r.ok,r.err);r.ok?complete(t,'Верно.'):wrong(t,r.err)}function checkText(t){let i=pick(t);if(i===null)return warn('Выбери вариант.');let ok=i===t.answer;rec(t,t.labels[i],t.labels[t.answer],ok,ok?'':(t.err||'bracket_error'));ok?complete(t,'Верно, запись выбрана правильно.'):wrong(t,t.err||'bracket_error')}function checkPoint(t){let v=st.pts[t.id];if(v===undefined)return warn('Сначала нажми на число на прямой.');let ok=eq(v,t.target.e);rec(t,fmt(v),fmt(t.target.e),ok,ok?'':t.err);ok?complete(t,'Точка стоит там, где нужно.'):wrong(t,t.err)}function checkBuild(t,key,c,done){let b=builder(key);if(b.e===null||b.e===undefined)return warn('Сначала отметь точку на прямой.');if(!b.d)return warn('Теперь выбери направление.');if(!b.p)return warn('Теперь выбери тип точки: пустая или закрашенная.');let u=ray(b.e,b.p,b.d,c.min,c.max),r=evalG(u,c,t);rec(t,fg(u),fg(c),r.ok,r.err);if(r.ok){done?done():complete(t,'Построение совпало с ответом.');return true}wrong(t,r.err);return false}function checkAlg(t){if((st.alg[t.id]||'alg')==='build')return checkBuild(t,'a:'+t.id,t.c);let v=parse(document.getElementById('algInput')?.value);if(v===null)return warn('Введи число. Можно через запятую или дробью.');let ok=eq(v,t.alg);rec(t,fmt(v),fmt(t.alg),ok,ok?'':'algebra_move_error');if(ok){st.alg[t.id]='build';st.fb={k:'good',m:'Алгебра верная. Теперь построй на прямой.'};render()}else wrong(t,'algebra_move_error')}function checkSys(t){let n=st.sys[t.id]||0;if(n<2){let q=t.ineq[n];return checkBuild(t,`s:${t.id}:${n}`,q.c,()=>{st.sys[t.id]=n+1;st.fb={k:'good',m:n===0?'Первое построено. Теперь второе.':'Оба построены. Выбери общую часть.'};render()})}let i=pick(t);if(i===null)return warn('Выбери итоговое пересечение.');let r=evalSys(t.fo[i],t.final);rec(t,t.labels[i],fg(t.final),r.ok,r.err);r.ok?complete(t,'Верно. Общая часть найдена.'):wrong(t,r.err)}function evalG(u,c,t={}){if(!u||!c||u.k!==c.k)return{ok:false,err:c&&c.k==='emp'?'no_solution_error':'intersection_error'};if(c.k==='ray'){let ep=!eq(u.e,c.e),dir=u.d!==c.d,p=u.p!==c.p;if(!ep&&!dir&&!p)return{ok:true,err:''};if(ep)return{ok:false,err:'endpoint_error'};if(dir)return{ok:false,err:'direction_error'};if(p)return{ok:false,err:t.pErr||'point_error'}}if(c.k==='seg'){let ep=!eq(u.a,c.a)||!eq(u.b,c.b),br=u.ap!==c.ap||u.bp!==c.bp;if(!ep&&!br)return{ok:true,err:''};if(ep)return{ok:false,err:'endpoint_error'};if(br)return{ok:false,err:t.pErr||'bracket_error'}}if(c.k==='emp')return{ok:u.k==='emp',err:u.k==='emp'?'':'no_solution_error'};return{ok:false,err:'endpoint_error'}}function evalSys(u,c){if(c.k==='emp')return{ok:u.k==='emp',err:u.k==='emp'?'':'no_solution_error'};if(u.k==='emp')return{ok:false,err:'intersection_error'};return evalG(u,c,{})}function rec(t,u,c,ok,err){let m=meta(t);m.a++;if(ok===false)m.w++;save();log.push({time:new Date().toISOString(),student:STUDENT,task:t.id,prompt:t.q,userAnswer:typeof u==='string'?u:JSON.stringify(u),correctAnswer:typeof c==='string'?c:JSON.stringify(c),isCorrect:ok,errorType:err||'',usedHint:m.h,openedTheory:m.th,viewedSolution:m.sol,attempt:m.a,seconds:Math.round((Date.now()-m.start)/1000)});save()}function complete(t,msg){let m=meta(t);prog.done[t.id]={task:t.id,b:t.b,usedHint:m.h,openedTheory:m.th,viewedSolution:m.sol,wrong:m.w,time:Math.round((Date.now()-m.start)/1000)};st.await=t.id;st.fb={k:'good',m:msg};save();render()}function wrong(t,e){let m=meta(t),tail=m.w>=2?' Можно открыть решение и сверить шаги.':' Попробуй ещё раз.';st.fb={k:'bad',m:errMsg(e)+tail};render()}function warn(m){st.fb={k:'warnBox',m};render()}function hint(t){let m=meta(t);m.h=true;rec(t,'hint','',null,'');st.fb={k:'warnBox',m:t.h};save();render()}function solution(t){let m=meta(t);m.sol=true;rec(t,'viewed_solution',t.s,null,'');st.fb={k:'warnBox',m:'Решение открыто. Разбери и попробуй сам.'};save();render()}function openTheory(t){let m=meta(t);m.open=true;m.th=true;rec(t,'opened_theory','',null,'');st.fb=null;save();render()}function closeTheory(t){meta(t).open=false;save();st.fb=null;render()}function done(t){let b=bd[t.b];E.main.innerHTML=`${head(t,b)}<section class="feed good"><p>${st.fb?esc(st.fb.m):'Задание принято.'}</p></section><div class="actions"><button class="btn primary" data-a="next">${prog.i+1>=tasks.length?'Открыть отчёт':'Следующее задание'}</button></div>`}function next(){if(st.await)prog.i++;st={choice:null,bld:{},pts:{},alg:{},sys:{},fb:null,await:null};save();render();E.main.focus()}function reset(){if(!confirm('Сбросить прогресс?'))return;prog={i:0,done:{},meta:{}};log=[];st={choice:null,bld:{},pts:{},alg:{},sys:{},fb:null,await:null};save();render()}function admin(){let r=makeReport();E.main.innerHTML=`<section class="head"><div><span class="badge">Админ</span><h2 class="title">Пульт Game Master</h2><p class="muted">Данные сохраняются локально в этом браузере. Для просмотра с другого устройства потом подключим Google Sheets.</p></div><div class="counter">${r.correct}/${r.total}</div></section>${feed()}<section class="adminGrid"><div class="adminCard"><h3>Прогресс</h3>${stats(r)}<button class="btn primary" data-a="export">Экспорт отчёта и лога</button> <button class="btn" data-a="clearLog">Очистить лог</button></div><div class="adminCard"><h3>Добавить простое задание</h3><label>Блок</label><select id="newBlock">${blocks.map(b=>`<option value="${b[0]}">${b[1]}</option>`).join('')}</select><label>Текст задания</label><input id="newQ" placeholder="Например: Построй x > 6"><label>Для луча: число</label><input id="newEndpoint" placeholder="6"><label>Для луча: знак</label><select id="newSign"><option value=">">&gt;</option><option value=">=">≥</option><option value="<">&lt;</option><option value="<=">≤</option></select><button class="btn primary" data-a="addTask">Добавить в локальный банк</button></div></section><section class="adminCard" style="margin-top:12px"><h3>Последние действия</h3><textarea rows="12" readonly>${esc(JSON.stringify(log.slice(-30),null,2))}</textarea></section>`}function addTask(){let q=gid('newQ').value.trim(),b=gid('newBlock').value,e=parse(gid('newEndpoint').value),sg=gid('newSign').value;if(!q)return warn('Напиши текст задания.');if(e===null)return warn('Для луча нужно число.');let p=sg.includes('=')?'c':'o',d=sg.includes('>')?'r':'l';custom.push({id:'custom-'+Date.now(),b,ty:'build',q,x:`x ${sg.replace('>=','≥').replace('<=','≤')} ${fmt(e)}`,c:ray(e,p,d,e-5,e+5),sn:def(e-5,e+5),h:'Сначала точка, потом направление, потом тип точки.',s:'Локальное задание из админки.'});save();st.fb={k:'good',m:'Задание добавлено. Старый прогресс сохранён.'};render()}function exportData(){let data={progress:prog,log,custom,report:makeReport()};navigator.clipboard?.writeText(JSON.stringify(data,null,2));st.fb={k:'good',m:'Данные скопированы в буфер.'};render()}function clearLog(){if(confirm('Очистить только лог? Прогресс останется.')){log=[];save();render()}}function report(){let r=makeReport();E.main.innerHTML=`<section class="head"><div><span class="badge">Отчёт</span><h2 class="title">OGE RAID — отчёт по миссии №13</h2><p class="muted">Ученик: ${STUDENT}</p></div><div class="counter">${r.correct}/${r.total}</div></section>${feed()}${stats(r)}<section class="errs">${Object.entries(r.errs).map(([k,v])=>`<div class="err"><span>${esc(k)}</span><b>${v}</b></div>`).join('')}</section><section class="rec"><span class="lab">Вывод</span><p>${esc(r.rec)}</p></section><div class="actions"><button class="btn primary" data-a="copy">Скопировать отчёт</button></div>`;window.__report=r.text}function stats(r){return `<section class="report"><div class="stat"><span>Время</span><strong>${r.dur}</strong></div><div class="stat"><span>Всего</span><strong>${r.total}</strong></div><div class="stat"><span>Верно</span><strong>${r.correct}</strong></div><div class="stat"><span>Самостоятельно</span><strong>${r.ind}</strong></div><div class="stat"><span>С подсказкой</span><strong>${r.hints}</strong></div><div class="stat"><span>Открывал теорию</span><strong>${r.th}</strong></div></section>`}function makeReport(){let res=Object.values(prog.done).filter(x=>tasks.some(t=>t.id===x.task)),errs=Object.fromEntries(['direction_error','point_error','endpoint_error','bracket_error','fraction_order_error','algebra_move_error','intersection_error','no_solution_error'].map(x=>[x,0]));log.forEach(e=>{if(e.isCorrect===false&&errs[e.errorType]!=null)errs[e.errorType]++});let dur=res.reduce((s,x)=>s+(x.time||0),0),r={total:tasks.length,correct:res.length,ind:res.filter(x=>!x.usedHint&&!x.viewedSolution&&x.wrong===0).length,hints:res.filter(x=>x.usedHint).length,th:res.filter(x=>x.openedTheory).length,sol:res.filter(x=>x.viewedSolution).length,errs,dur:durTxt(dur)};r.rec=recom(errs);r.text=['OGE RAID — отчёт по миссии №13',`Ученик: ${STUDENT}`,`Время: ${r.dur}`,`Всего заданий: ${r.total}`,`Верно: ${r.correct}`,`Самостоятельно: ${r.ind}`,`С подсказкой: ${r.hints}`,`Открывал теорию: ${r.th}`,`Показал решение: ${r.sol}`,'','Ошибки по типам:',...Object.entries(errs).map(([k,v])=>`${k} — ${v}`),'','Вывод:',r.rec].join('\n');return r}function copy(){navigator.clipboard?.writeText(window.__report||makeReport().text).then(()=>{st.fb={k:'good',m:'Отчёт скопирован.'};report()})}function recom(e){let rules=[['direction_error','Дать ещё задания на больше/меньше и вправо/влево.'],['point_error','Потренировать пустую и закрашенную точку.'],['bracket_error','Повторить круглые и квадратные скобки.'],['fraction_order_error','Повторить дроби и десятичные числа на прямой.'],['algebra_move_error','Дать серию на перенос чисел.'],['intersection_error','Вернуться к системам и общей части.'],['no_solution_error','Разобрать случаи без решений.']].sort((a,b)=>(e[b[0]]||0)-(e[a[0]]||0));return e[rules[0][0]]?rules[0][1]:'Ошибок по ключевым типам пока нет.'}function builder(k){return st.bld[k]??={p:null,d:null,e:null}}function svg(g,o={}){let w=o.compact?520:760,h=o.compact?118:138,p=o.compact?34:44,y=o.compact?56:66,min=o.min??g?.min??-6,max=o.max??g?.max??6,x=v=>p+((v-min)/(max-min))*(w-p*2),ends=end(g),ticks=tick(min,max,ends,o.sn,o.compact);if(o.interactive&&o.key)lc[o.key]={min,max,pad:p,w,mode:o.mode,sn:o.sn};return `<svg class="num" viewBox="0 0 ${w} ${h}" data-key="${o.interactive?esc(o.key):''}"><line class="axis" x1="${p}" y1="${y}" x2="${w-p}" y2="${y}"></line><polygon fill="#6d788d" points="${p-8},${y} ${p+4},${y-6} ${p+4},${y+6}"></polygon><polygon fill="#6d788d" points="${w-p+8},${y} ${w-p-4},${y-6} ${w-p-4},${y+6}"></polygon>${ticks.map(t=>`<line class="tick" x1="${x(t)}" y1="${y-10}" x2="${x(t)}" y2="${y+10}"></line><text class="tl ${isSpecial(t,g)?'special':''}" x="${x(t)}" y="${y+34}" text-anchor="middle">${esc(label(t,g))}</text>`).join('')}${mark(g,x,y,p,w)}${o.interactive?`<rect class="hit" x="${p}" y="${y-36}" width="${w-p*2}" height="72"></rect>`:''}</svg>`}function mark(g,x,y,p,w){if(!g||g.k==='blank')return'';if(g.k==='ray'){let ex=x(g.e),en=g.d==='r'?w-p:p,arr=g.d==='r'?`<polygon class="sf" points="${en+8},${y} ${en-6},${y-8} ${en-6},${y+8}"></polygon>`:`<polygon class="sf" points="${en-8},${y} ${en+6},${y-8} ${en+6},${y+8}"></polygon>`;return `<line class="ss" x1="${ex}" y1="${y}" x2="${en}" y2="${y}"></line>${arr}<circle class="${g.p==='c'?'closed':'open'}" cx="${ex}" cy="${y}" r="10"></circle>`}if(g.k==='seg'){let a=x(g.a),b=x(g.b);return `<line class="ss" x1="${a}" y1="${y}" x2="${b}" y2="${y}"></line><circle class="${g.ap==='c'?'closed':'open'}" cx="${a}" cy="${y}" r="10"></circle><circle class="${g.bp==='c'?'closed':'open'}" cx="${b}" cy="${y}" r="10"></circle>`}if(g.k==='pt')return `<circle class="target" cx="${x(g.e)}" cy="${y}" r="10"></circle>`;if(g.k==='emp')return `<text class="empty" x="${w/2}" y="${y-18}" text-anchor="middle">нет общей части</text>`;return''}function end(g){if(!g)return[];if(g.k==='ray'||g.k==='pt')return[g.e];if(g.k==='seg')return[g.a,g.b];return[]}function tick(min,max,ends,sn,compact){let v=[];if(sn&&!compact)v.push(...sn);else for(let n=Math.ceil(min);n<=Math.floor(max);n++)v.push(n);v.push(...ends);return[...new Set(v.map(n=>+Number(n).toFixed(6)))].filter(n=>n>=min&&n<=max).sort((a,b)=>a-b)}function label(v,g){if(g&&(g.k==='ray'||g.k==='pt')&&eq(v,g.e)&&g.l)return g.l;return fmt(v)}function isSpecial(v,g){return g&&(g.k==='ray'||g.k==='pt')&&eq(v,g.e)&&g.l}function nearest(v,a){return a.reduce((b,c)=>Math.abs(c-v)<Math.abs(b-v)?c:b,a[0])}function def(min,max){let a=[];for(let n=Math.ceil(min);n<=Math.floor(max);n++)a.push(n);return a.length?a:[min,max]}function fg(g){if(!g)return'';if(g.k==='ray')return{kind:'ray',endpoint:g.e,pointType:g.p,direction:g.d};if(g.k==='seg')return{kind:'segment',left:g.a,right:g.b,leftType:g.ap,rightType:g.bp};if(g.k==='emp')return{kind:'empty'};return g}function rel(g){let s=g.d==='r'?(g.p==='c'?'≥':'>'):(g.p==='c'?'≤':'<');return `x ${s} ${fmt(g.e)}`}function parse(s){s=String(s||'').trim().replace(',','.').replace(/\s+/g,'');if(!s)return null;if(/^-?\d+\/-?\d+$/.test(s)){let[a,b]=s.split('/').map(Number);return b?a/b:null}let v=Number(s);return Number.isFinite(v)?v:null}function eq(a,b){return Math.abs(Number(a)-Number(b))<1e-4}function fmt(v){let n=Number(v);if(!Number.isFinite(n))return String(v);return Number.isInteger(n)?String(n):String(Number(n.toFixed(2))).replace('.',',')}function durTxt(s){s=Math.max(0,Math.round(s));let m=Math.floor(s/60),r=s%60;return m?`${m} мин ${r} сек`:`${r} сек`}function errMsg(e){return({direction_error:'Проверь направление: больше — вправо, меньше — влево.',point_error:'Проверь тип точки: > и < дают пустую, ≥ и ≤ — закрашенную.',endpoint_error:'Проверь число на прямой.',bracket_error:'Круглая скобка — число не входит, квадратная — входит.',fraction_order_error:'Переведи дробь в десятичное число и сравни положение.',algebra_move_error:'Проверь перенос числа.',intersection_error:'Проверь перекрытие.',no_solution_error:'Проверь, есть ли общая часть.'})[e]||'Ответ пока не совпал.'}function esc(v){return String(v).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;').replaceAll("'",'&#039;')}})();
+(function () {
+  "use strict";
+
+  const tasks = window.OGE13_TASKS || [];
+  const blocks = window.OGE13_BLOCKS || [];
+  const config = window.OGE13_CONFIG || { studentNameDefault: "Ученик", storagePrefix: "oge13-trainer-v2" };
+  const blocksById = Object.fromEntries(blocks.map((block) => [block.id, block]));
+  const taskIds = new Set(tasks.map((task) => task.id));
+  const fallbackStorage = {};
+
+  const storageKeys = {
+    progress: `${config.storagePrefix}:progress`,
+    log: `${config.storagePrefix}:sessionLog`,
+    session: `${config.storagePrefix}:sessionId`
+  };
+
+  const elements = {
+    progressText: document.getElementById("progressText"),
+    progressFill: document.getElementById("progressFill"),
+    blockNav: document.getElementById("blockNav"),
+    taskArea: document.getElementById("taskArea"),
+    studentNameInput: document.getElementById("studentNameInput")
+  };
+
+  const makeRay = (endpoint, pointType, direction, min, max) => ({
+    kind: "ray",
+    endpoint,
+    pointType,
+    direction,
+    min,
+    max
+  });
+
+  const makeSegment = (left, right, leftType, rightType, min, max) => ({
+    kind: "segment",
+    left,
+    right,
+    leftType,
+    rightType,
+    min,
+    max
+  });
+
+  const makePoint = (endpoint, min, max) => ({
+    kind: "point",
+    endpoint,
+    min,
+    max
+  });
+
+  const errorLabels = {
+    direction_error: "direction_error",
+    point_error: "point_error",
+    endpoint_error: "endpoint_error",
+    both_error: "both_error",
+    bracket_error: "bracket_error",
+    fraction_order_error: "fraction_order_error",
+    algebra_move_error: "algebra_move_error",
+    intersection_error: "intersection_error",
+    no_solution_error: "no_solution_error",
+    system_union_instead_intersection_error: "system_union_instead_intersection_error",
+    only_first_condition_error: "only_first_condition_error",
+    only_second_condition_error: "only_second_condition_error",
+    endpoint_inclusion_error: "endpoint_inclusion_error",
+    false_no_solution_error: "false_no_solution_error",
+    missed_single_point_solution: "missed_single_point_solution",
+    wrong_endpoint: "wrong_endpoint",
+    wrong_left_endpoint: "wrong_left_endpoint",
+    wrong_right_endpoint: "wrong_right_endpoint",
+    interval_side_error: "interval_side_error",
+    sign_transfer_error: "sign_transfer_error",
+    minus_before_brackets_error: "minus_before_brackets_error",
+    distribution_sign_error: "distribution_sign_error",
+    negative_times_negative_error: "negative_times_negative_error",
+    combine_constants_error: "combine_constants_error",
+    copying_error: "copying_error",
+    attention_drift_error: "attention_drift_error",
+    negative_division_flip_error: "negative_division_flip_error"
+  };
+
+  let sessionLog = loadJson(storageKeys.log, []);
+  let progress = loadJson(storageKeys.progress, createFreshProgress());
+  let lineConfigs = {};
+  let state = createFreshState();
+
+  let sessionId = getOrCreateSessionId();
+
+  init();
+
+  function init() {
+    if (elements.studentNameInput) elements.studentNameInput.value = getStudentName();
+
+    document.addEventListener("click", handleClick);
+    document.addEventListener("keydown", handleKeydown);
+
+    normalizeProgress();
+    render();
+  }
+
+  function createFreshProgress() {
+    return {
+      currentTaskIndex: 0,
+      completedResults: {},
+      taskMeta: {}
+    };
+  }
+
+  function createFreshState(patch = {}) {
+    return {
+      selectedChoice: null,
+      builders: {},
+      pointSelections: {},
+      algebraStages: {},
+      systemStages: {},
+      systemOverlap: {},
+      drawStages: {},
+      microStages: {},
+      feedback: null,
+      awaitingNextTaskId: null,
+      reviewTaskId: null,
+      ...patch
+    };
+  }
+
+  function loadJson(key, fallback) {
+    try {
+      const raw = readStorage("localStorage", key);
+      return raw ? JSON.parse(raw) : fallback;
+    } catch (error) {
+      console.warn("Не удалось прочитать localStorage:", error);
+      return fallback;
+    }
+  }
+
+  function saveJson(key, value) {
+    writeStorage("localStorage", key, JSON.stringify(value));
+  }
+
+  function saveProgress() {
+    saveJson(storageKeys.progress, progress);
+  }
+
+  function saveLog() {
+    saveJson(storageKeys.log, sessionLog);
+  }
+
+  function getOrCreateSessionId() {
+    const existing = readStorage("sessionStorage", storageKeys.session);
+    if (existing) return existing;
+
+    const id = crypto.randomUUID ? crypto.randomUUID() : `session-${Date.now()}-${Math.random().toString(16).slice(2)}`;
+    writeStorage("sessionStorage", storageKeys.session, id);
+    return id;
+  }
+
+  function readStorage(storageName, key) {
+    try {
+      const storage = window[storageName];
+      if (storage) return storage.getItem(key);
+    } catch (error) {
+      console.warn(`Не удалось прочитать ${storageName}:`, error);
+    }
+
+    return fallbackStorage[`${storageName}:${key}`] || null;
+  }
+
+  function writeStorage(storageName, key, value) {
+    try {
+      const storage = window[storageName];
+      if (storage) {
+        storage.setItem(key, value);
+        return;
+      }
+    } catch (error) {
+      console.warn(`Не удалось записать в ${storageName}:`, error);
+    }
+
+    fallbackStorage[`${storageName}:${key}`] = String(value);
+  }
+
+  function getStudentName() {
+    return config.studentNameDefault || "Ученик";
+  }
+
+  function normalizeProgress() {
+    progress.currentTaskIndex = Number.isInteger(progress.currentTaskIndex) ? progress.currentTaskIndex : 0;
+    progress.completedResults = progress.completedResults || {};
+    progress.taskMeta = progress.taskMeta || {};
+
+    while (
+      progress.currentTaskIndex < tasks.length &&
+      progress.completedResults[tasks[progress.currentTaskIndex].id] &&
+      state.awaitingNextTaskId !== tasks[progress.currentTaskIndex].id &&
+      state.reviewTaskId !== tasks[progress.currentTaskIndex].id
+    ) {
+      progress.currentTaskIndex += 1;
+    }
+
+    saveProgress();
+  }
+
+  function getCurrentTask() {
+    return tasks[progress.currentTaskIndex] || null;
+  }
+
+  function getTaskMeta(task) {
+    progress.taskMeta = progress.taskMeta || {};
+    if (!progress.taskMeta[task.id]) {
+      progress.taskMeta[task.id] = {
+        attempts: 0,
+        wrongAttempts: 0,
+        usedHint: false,
+        openedTheory: false,
+        viewedSolution: false,
+        solutionOpen: false,
+        theoryPanelOpen: null,
+        startedAt: Date.now()
+      };
+      saveProgress();
+    }
+    return progress.taskMeta[task.id];
+  }
+
+  function updateTaskMeta(task, patch) {
+    const meta = getTaskMeta(task);
+    Object.assign(meta, patch);
+    saveProgress();
+    return meta;
+  }
+
+  function render() {
+    normalizeProgress();
+    lineConfigs = {};
+    renderStatus();
+    renderBlockNav();
+
+    if (progress.currentTaskIndex >= tasks.length) {
+      renderReport();
+      return;
+    }
+
+    const task = getCurrentTask();
+    if (!task) {
+      renderReport();
+      return;
+    }
+
+    if (progress.completedResults[task.id] && state.awaitingNextTaskId === task.id) {
+      renderTaskComplete(task);
+      return;
+    }
+
+    renderTask(task);
+  }
+
+  function renderStatus() {
+    const completed = Object.keys(progress.completedResults || {}).filter((id) => taskIds.has(id)).length;
+    const total = tasks.length;
+    const percent = total ? Math.round((completed / total) * 100) : 0;
+    elements.progressText.textContent = `${completed} / ${total}`;
+    elements.progressFill.style.width = `${percent}%`;
+  }
+
+  function renderBlockNav() {
+    const currentTask = getCurrentTask();
+    const currentBlockTasks = currentTask ? tasks.filter((task) => task.blockId === currentTask.blockId) : [];
+    elements.blockNav.innerHTML = blocks
+      .map((block, index) => {
+        const blockTasks = tasks.filter((task) => task.blockId === block.id);
+        const completed = blockTasks.filter((task) => progress.completedResults[task.id]).length;
+        const isActive = currentTask && currentTask.blockId === block.id;
+        const isComplete = completed === blockTasks.length;
+        return `
+          <button class="block-link ${isActive ? "is-active" : ""} ${isComplete ? "is-complete" : ""}" type="button" data-action="jump-block" data-block-id="${escapeHtml(block.id)}">
+            <span class="block-index">${index + 1}</span>
+            <span>
+              <span class="block-title">${escapeHtml(block.shortTitle || block.title)}</span>
+              <span class="block-meta">${escapeHtml(block.badge)} · ${completed}/${blockTasks.length}</span>
+            </span>
+          </button>
+        `;
+      })
+      .join("") + (currentBlockTasks.length ? `
+        <div class="task-jump-panel">
+          <span class="status-label">Задания блока</span>
+          <div class="task-jump-grid">
+            ${currentBlockTasks.map((task) => {
+              const globalIndex = tasks.findIndex((item) => item.id === task.id);
+              const isCurrent = currentTask && currentTask.id === task.id;
+              const isDone = Boolean(progress.completedResults[task.id]);
+              return `
+                <button class="task-jump-button ${isCurrent ? "is-active" : ""} ${isDone ? "is-done" : ""}" type="button" data-action="jump-task" data-task-index="${globalIndex}">
+                  ${globalIndex + 1}
+                </button>
+              `;
+            }).join("")}
+          </div>
+        </div>
+      ` : "");
+  }
+
+  function renderTask(task) {
+    const block = blocksById[task.blockId];
+    const meta = getTaskMeta(task);
+    const theoryOpen = shouldShowTheory(task, block, meta);
+
+    elements.taskArea.innerHTML = `
+      ${renderTaskHeader(task, block)}
+      ${renderTheory(block, theoryOpen)}
+      ${renderFeedback()}
+      <section class="task-body">${renderTaskBody(task)}</section>
+      ${meta.solutionOpen ? renderSolution(task) : ""}
+      ${renderActions(task, meta)}
+    `;
+  }
+
+  function renderTaskHeader(task, block) {
+    const taskNumber = progress.currentTaskIndex + 1;
+    return `
+      <section class="task-header">
+        <div>
+          <span class="mission-badge">${escapeHtml(block.badge)}</span>
+          <h2 class="task-title">${escapeHtml(task.prompt)}</h2>
+          <p class="task-subtitle">${escapeHtml(block.title)}</p>
+        </div>
+        <div class="task-counter">${taskNumber}/${tasks.length}</div>
+      </section>
+    `;
+  }
+
+  function shouldShowTheory(task, block, meta) {
+    if (meta.theoryPanelOpen !== null) return Boolean(meta.theoryPanelOpen);
+    const completedBeforeInBlock = tasks
+      .slice(0, progress.currentTaskIndex)
+      .filter((item) => item.blockId === task.blockId && progress.completedResults[item.id]).length;
+    return completedBeforeInBlock < (block.theoryVisibleFor || 0);
+  }
+
+  function renderTheory(block, isOpen) {
+    if (!isOpen) {
+      return `
+        <div class="collapsed-theory">
+          <span>Теория свернута. Можно открыть её в любой момент.</span>
+          <button class="soft-button" type="button" data-action="open-theory">Открыть теорию</button>
+        </div>
+      `;
+    }
+
+    return `
+      <section class="theory-panel">
+        <div class="theory-head">
+          <h3>Короткая теория</h3>
+          <button class="ghost-button" type="button" data-action="close-theory">Свернуть</button>
+        </div>
+        <ul class="theory-list">
+          ${block.theory.map((line) => `<li>${escapeHtml(line)}</li>`).join("")}
+        </ul>
+      </section>
+    `;
+  }
+
+  function renderFeedback() {
+    if (!state.feedback) return "";
+    return `
+      <section class="feedback-panel ${state.feedback.kind ? `is-${state.feedback.kind}` : ""}">
+        <p>${escapeHtml(state.feedback.message)}</p>
+      </section>
+    `;
+  }
+
+  function renderTaskBody(task) {
+    switch (task.type) {
+      case "graph_choice":
+      case "segment_choice":
+      case "notation_choice":
+        return renderChoiceTask(task);
+      case "text_choice":
+        return renderTextChoiceTask(task);
+      case "point_placement":
+        return renderPointPlacementTask(task);
+      case "build_ray":
+      case "number_line_draw_ray":
+        return renderBuildRayTask(task);
+      case "number_line_draw_interval":
+        return renderIntervalDrawTask(task);
+      case "algebra_build":
+        return renderAlgebraBuildTask(task);
+      case "system_overlap":
+        return renderSystemOverlapTask(task);
+      case "system_draw_two_conditions":
+        return renderSystemDrawTwoConditionsTask(task);
+      case "system_draw_intersection":
+        return renderSystemDrawIntersectionTask(task);
+      case "oge13_draw_then_choose_graph":
+        return renderOgeDrawThenChooseTask(task);
+      case "algebra_expand_negative_brackets":
+      case "algebra_transfer_sign":
+      case "algebra_combine_constants":
+      case "algebra_line_control":
+        return renderAlgebraMicroTask(task);
+      case "system_basic":
+        return renderSystemTask(task);
+      default:
+        return `<p>Этот тип задания пока не подключен.</p>`;
+    }
+  }
+
+  function renderChoiceTask(task) {
+    const selectedIndex = selectedChoiceIndex(task.id);
+    const stimulus = task.stimulusGraph
+      ? `
+        <div class="stimulus">
+          <span class="status-label">Дан график</span>
+          ${renderNumberLineSvg(task.stimulusGraph)}
+        </div>
+      `
+      : task.expression
+        ? `<div class="expression-chip">${escapeHtml(task.expression)}</div>`
+        : "";
+
+    return `
+      ${stimulus}
+      <div class="choice-grid ${task.type === "notation_choice" ? "is-notation-grid" : ""}">
+        ${task.options
+          .map((option, index) => {
+            const isSelected = selectedIndex === index;
+            const graph = option.graph && task.type !== "notation_choice" ? renderNumberLineSvg(option.graph, { compact: true }) : "";
+            return `
+              <button class="choice-button ${task.type === "notation_choice" ? "is-notation" : ""} ${isSelected ? "is-selected" : ""}" type="button" data-action="select-choice" data-index="${index}">
+                <span class="${task.type === "notation_choice" ? "choice-text" : "choice-label"}">${escapeHtml(option.label)}</span>
+                ${graph}
+              </button>
+            `;
+          })
+          .join("")}
+      </div>
+    `;
+  }
+
+  function renderTextChoiceTask(task) {
+    const selectedIndex = selectedChoiceIndex(task.id);
+    return `
+      ${renderComparisonStimulus(task)}
+      <div class="choice-grid">
+        ${task.options
+          .map((option, index) => `
+            <button class="choice-button ${selectedIndex === index ? "is-selected" : ""}" type="button" data-action="select-choice" data-index="${index}">
+              <span class="choice-label">${index + 1}</span>
+              <span class="choice-text">${escapeHtml(option.label)}</span>
+            </button>
+          `)
+          .join("")}
+      </div>
+    `;
+  }
+
+  function renderComparisonStimulus(task) {
+    const values = (task.options || [])
+      .map((option, index) => ({
+        label: option.label,
+        value: parseNumberInput(option.value || option.label),
+        index
+      }))
+      .filter((item) => Number.isFinite(item.value));
+
+    if (values.length < 2) return "";
+
+    const minValue = Math.min(...values.map((item) => item.value));
+    const maxValue = Math.max(...values.map((item) => item.value));
+    const min = Math.floor(minValue - 1);
+    const max = Math.ceil(maxValue + 1);
+
+    return `
+      <div class="stimulus comparison-stimulus">
+        <span class="status-label">Смотри на прямую</span>
+        ${renderComparisonLine(values, min, max)}
+      </div>
+    `;
+  }
+
+  function renderComparisonLine(values, min, max) {
+    const width = 760;
+    const height = 144;
+    const pad = 44;
+    const y = 66;
+    const xFor = (value) => pad + ((value - min) / (max - min)) * (width - pad * 2);
+    const integerTicks = [];
+    for (let value = Math.ceil(min); value <= Math.floor(max); value += 1) integerTicks.push(value);
+    const ticks = uniqueSorted([...integerTicks, ...values.map((item) => item.value)]);
+    const labelTicks = selectVisibleTickLabels(ticks, values.map((item) => item.value), xFor, false);
+
+    return `
+      <svg class="number-line comparison-line" viewBox="0 0 ${width} ${height}" role="img" aria-label="Сравнение чисел на прямой">
+        <line class="axis-line" x1="${pad}" y1="${y}" x2="${width - pad}" y2="${y}"></line>
+        <polygon fill="#6d788d" points="${pad - 8},${y} ${pad + 4},${y - 6} ${pad + 4},${y + 6}"></polygon>
+        <polygon fill="#6d788d" points="${width - pad + 8},${y} ${width - pad - 4},${y - 6} ${width - pad - 4},${y + 6}"></polygon>
+        ${ticks.map((tick) => `
+          <line class="tick-line" x1="${xFor(tick)}" y1="${y - 10}" x2="${xFor(tick)}" y2="${y + 10}"></line>
+        `).join("")}
+        ${labelTicks.map((tick) => `
+          <text class="tick-label" x="${xFor(tick)}" y="${y + 34}" text-anchor="middle">${escapeHtml(formatNumber(tick))}</text>
+        `).join("")}
+        ${values.map((item) => `
+          <g class="comparison-point is-${item.index + 1}">
+            <circle cx="${xFor(item.value)}" cy="${y - 24}" r="11"></circle>
+            <text x="${xFor(item.value)}" y="${y - 44}" text-anchor="middle">${escapeHtml(item.label)}</text>
+          </g>
+        `).join("")}
+      </svg>
+    `;
+  }
+
+  function renderPointPlacementTask(task) {
+    const key = `point:${task.id}`;
+    const selected = state.pointSelections[task.id];
+    const graph = selected === undefined ? { kind: "blank", min: task.targetPoint.min, max: task.targetPoint.max } : makePoint(selected, task.targetPoint.min, task.targetPoint.max);
+
+    return `
+      <div class="expression-chip">${escapeHtml(task.targetPoint.endpointLabel || formatNumber(task.targetPoint.endpoint))}</div>
+      <div class="interactive-wrap">
+        ${renderNumberLineSvg(graph, {
+          interactive: true,
+          mode: "point",
+          lineKey: key,
+          snapValues: task.snapValues,
+          highlightValues: [task.targetPoint.endpoint],
+          min: task.targetPoint.min,
+          max: task.targetPoint.max
+        })}
+      </div>
+      <p class="selected-readout">Выбрано: ${selected === undefined ? "пока нет точки" : formatNumber(selected)}</p>
+    `;
+  }
+
+  function renderBuildRayTask(task, customKey, correctOverride, snapValuesOverride) {
+    const correct = correctOverride || task.correct;
+    const key = customKey || `build:${task.id}`;
+    const snapValues = snapValuesOverride || task.snapValues;
+    return `
+      ${task.expression ? `<div class="expression-chip">${escapeHtml(task.expression)}</div>` : ""}
+      ${renderBuilderControls(key, correct, snapValues)}
+    `;
+  }
+
+  function renderBuilderControls(key, correct, snapValues) {
+    const builder = ensureBuilder(key);
+    const hasEndpoint = builder.endpoint !== null && builder.endpoint !== undefined;
+    const previewGraph = hasEndpoint
+      ? makeRay(builder.endpoint, builder.pointType, builder.direction, correct.min, correct.max)
+      : { kind: "blank", min: correct.min, max: correct.max };
+
+    return `
+      <div class="builder-controls">
+        <div class="control-row">
+          <span class="control-label">Тип точки</span>
+          <button class="segmented-button ${builder.pointType === "open" ? "is-active" : ""}" type="button" data-action="builder-field" data-builder-key="${escapeHtml(key)}" data-field="pointType" data-value="open">○ пустая</button>
+          <button class="segmented-button ${builder.pointType === "closed" ? "is-active" : ""}" type="button" data-action="builder-field" data-builder-key="${escapeHtml(key)}" data-field="pointType" data-value="closed">● закрашенная</button>
+        </div>
+        <div class="control-row">
+          <span class="control-label">Направление</span>
+          <button class="segmented-button ${builder.direction === "left" ? "is-active" : ""}" type="button" data-action="builder-field" data-builder-key="${escapeHtml(key)}" data-field="direction" data-value="left">← влево</button>
+          <button class="segmented-button ${builder.direction === "right" ? "is-active" : ""}" type="button" data-action="builder-field" data-builder-key="${escapeHtml(key)}" data-field="direction" data-value="right">вправо →</button>
+        </div>
+        <div class="interactive-wrap">
+          ${renderNumberLineSvg(previewGraph, {
+            interactive: true,
+            mode: "builder",
+            lineKey: key,
+            snapValues,
+            min: correct.min,
+            max: correct.max
+          })}
+        </div>
+        <p class="selected-readout">Число: ${hasEndpoint ? formatNumber(builder.endpoint) : "нажми на прямую"}</p>
+      </div>
+    `;
+  }
+
+  function renderIntervalDrawTask(task) {
+    return `
+      ${task.expression ? `<div class="expression-chip">${escapeHtml(task.expression)}</div>` : ""}
+      ${renderGraphDrawBuilder(`interval:${task.id}`, task.correct, task.snapValues, {
+        allowedTypes: ["interval"],
+        defaultType: "interval"
+      })}
+    `;
+  }
+
+  function renderGraphDrawBuilder(key, correct, snapValues, options = {}) {
+    const builder = ensureBuilder(key);
+    const allowedTypes = options.allowedTypes || ["ray", "interval", "point", "empty"];
+    const defaultType = options.defaultType || graphKindToAnswerKind(correct.kind);
+    if (!builder.answerKind || !allowedTypes.includes(builder.answerKind)) {
+      builder.answerKind = defaultType;
+      builder.activeField = defaultType === "interval" ? "left" : defaultType === "point" ? "point" : "endpoint";
+    }
+
+    const preview = graphFromDrawBuilder(builder, correct);
+    const showKindChooser = allowedTypes.length > 1;
+
+    return `
+      <div class="draw-builder">
+        ${showKindChooser ? renderAnswerKindChooser(key, allowedTypes, builder.answerKind) : ""}
+        ${renderAnswerKindControls(key, builder, correct, snapValues)}
+        <div class="interactive-wrap draw-preview">
+          ${renderNumberLineSvg(preview, {
+            interactive: builder.answerKind !== "empty",
+            mode: "draw-builder",
+            lineKey: key,
+            snapValues,
+            min: correct.min,
+            max: correct.max
+          })}
+        </div>
+        <p class="selected-readout">${escapeHtml(drawBuilderReadout(builder))}</p>
+      </div>
+    `;
+  }
+
+  function renderAnswerKindChooser(key, allowedTypes, current) {
+    const labels = {
+      ray: "луч",
+      interval: "промежуток",
+      point: "одна точка",
+      empty: "нет решений"
+    };
+    return `
+      <div class="draw-kind-grid">
+        ${allowedTypes
+          .map((type) => `
+            <button class="segmented-button ${current === type ? "is-active" : ""}" type="button" data-action="builder-field" data-builder-key="${escapeHtml(key)}" data-field="answerKind" data-value="${type}">
+              ${escapeHtml(labels[type] || type)}
+            </button>
+          `)
+          .join("")}
+      </div>
+    `;
+  }
+
+  function renderAnswerKindControls(key, builder, correct, snapValues) {
+    if (builder.answerKind === "ray") {
+      return `
+        <div class="control-row">
+          <span class="control-label">Граница</span>
+          <button class="segmented-button is-active" type="button" data-action="builder-field" data-builder-key="${escapeHtml(key)}" data-field="activeField" data-value="endpoint">клик по числу</button>
+        </div>
+        <div class="control-row">
+          <span class="control-label">Тип точки</span>
+          <button class="segmented-button ${builder.pointType === "open" ? "is-active" : ""}" type="button" data-action="builder-field" data-builder-key="${escapeHtml(key)}" data-field="pointType" data-value="open">○ пустая</button>
+          <button class="segmented-button ${builder.pointType === "closed" ? "is-active" : ""}" type="button" data-action="builder-field" data-builder-key="${escapeHtml(key)}" data-field="pointType" data-value="closed">● закрашенная</button>
+        </div>
+        <div class="control-row">
+          <span class="control-label">Направление</span>
+          <button class="segmented-button ${builder.direction === "left" ? "is-active" : ""}" type="button" data-action="builder-field" data-builder-key="${escapeHtml(key)}" data-field="direction" data-value="left">← влево</button>
+          <button class="segmented-button ${builder.direction === "right" ? "is-active" : ""}" type="button" data-action="builder-field" data-builder-key="${escapeHtml(key)}" data-field="direction" data-value="right">вправо →</button>
+        </div>
+      `;
+    }
+
+    if (builder.answerKind === "interval") {
+      return `
+        <div class="draw-help">
+          <strong>Левая граница</strong> — меньшее число, где промежуток начинается. <strong>Правая граница</strong> — большее число, где он заканчивается.
+          Тип точки выбираем отдельно: круглая скобка = пустая, квадратная = закрашенная.
+        </div>
+        <div class="control-row">
+          <span class="control-label">Что кликаем</span>
+          <button class="segmented-button ${(builder.activeField || "left") === "left" ? "is-active" : ""}" type="button" data-action="builder-field" data-builder-key="${escapeHtml(key)}" data-field="activeField" data-value="left">левая граница</button>
+          <button class="segmented-button ${builder.activeField === "right" ? "is-active" : ""}" type="button" data-action="builder-field" data-builder-key="${escapeHtml(key)}" data-field="activeField" data-value="right">правая граница</button>
+        </div>
+        <div class="control-row">
+          <span class="control-label">Левая точка</span>
+          <button class="segmented-button ${builder.leftType === "open" ? "is-active" : ""}" type="button" data-action="builder-field" data-builder-key="${escapeHtml(key)}" data-field="leftType" data-value="open">○ пустая</button>
+          <button class="segmented-button ${builder.leftType === "closed" ? "is-active" : ""}" type="button" data-action="builder-field" data-builder-key="${escapeHtml(key)}" data-field="leftType" data-value="closed">● закрашенная</button>
+        </div>
+        <div class="control-row">
+          <span class="control-label">Правая точка</span>
+          <button class="segmented-button ${builder.rightType === "open" ? "is-active" : ""}" type="button" data-action="builder-field" data-builder-key="${escapeHtml(key)}" data-field="rightType" data-value="open">○ пустая</button>
+          <button class="segmented-button ${builder.rightType === "closed" ? "is-active" : ""}" type="button" data-action="builder-field" data-builder-key="${escapeHtml(key)}" data-field="rightType" data-value="closed">● закрашенная</button>
+        </div>
+        <div class="control-row">
+          <span class="control-label">Участок</span>
+          <button class="segmented-button ${builder.spanSelected ? "is-active" : ""}" type="button" data-action="builder-field" data-builder-key="${escapeHtml(key)}" data-field="spanSelected" data-value="true">выделить между границами</button>
+        </div>
+      `;
+    }
+
+    if (builder.answerKind === "point") {
+      return `
+        <div class="control-row">
+          <span class="control-label">Точка</span>
+          <button class="segmented-button is-active" type="button" data-action="builder-field" data-builder-key="${escapeHtml(key)}" data-field="activeField" data-value="point">клик по числу</button>
+        </div>
+      `;
+    }
+
+    return `
+      <div class="empty-answer-box">
+        <strong>Выбрано: общей части нет</strong>
+        <span>Если пересечения нет, проверка примет этот тип ответа.</span>
+      </div>
+    `;
+  }
+
+  function graphFromDrawBuilder(builder, correct) {
+    const min = correct.min;
+    const max = correct.max;
+
+    if (builder.answerKind === "ray") {
+      if (builder.endpoint === null || builder.endpoint === undefined) return { kind: "blank", min, max };
+      return makeRay(builder.endpoint, builder.pointType || "open", builder.direction || "right", min, max);
+    }
+
+    if (builder.answerKind === "interval") {
+      const hasLeft = builder.left !== null && builder.left !== undefined;
+      const hasRight = builder.right !== null && builder.right !== undefined;
+      if (!hasLeft && !hasRight) return { kind: "blank", min, max };
+      if (!hasLeft) return makePoint(builder.right, min, max);
+      if (!hasRight) return makePoint(builder.left, min, max);
+      const left = Math.min(builder.left, builder.right);
+      const right = Math.max(builder.left, builder.right);
+      return makeSegment(left, right, builder.leftType || "open", builder.rightType || "open", min, max);
+    }
+
+    if (builder.answerKind === "point") {
+      if (builder.point === null || builder.point === undefined) return { kind: "blank", min, max };
+      return makePoint(builder.point, min, max);
+    }
+
+    if (builder.answerKind === "empty") {
+      return { kind: "empty", min, max };
+    }
+
+    return { kind: "blank", min, max };
+  }
+
+  function drawBuilderReadout(builder) {
+    if (builder.answerKind === "ray") {
+      return `Луч: граница ${builder.endpoint === null || builder.endpoint === undefined ? "не выбрана" : formatNumber(builder.endpoint)}, ${builder.direction === "left" ? "влево" : "вправо"}, точка ${builder.pointType === "closed" ? "закрашенная" : "пустая"}`;
+    }
+    if (builder.answerKind === "interval") {
+      const left = builder.left === null || builder.left === undefined ? "?" : formatNumber(builder.left);
+      const right = builder.right === null || builder.right === undefined ? "?" : formatNumber(builder.right);
+      return `Промежуток: ${left} ... ${right}, участок ${builder.spanSelected ? "выделен" : "ещё не выделен"}`;
+    }
+    if (builder.answerKind === "point") {
+      return `Одна точка: ${builder.point === null || builder.point === undefined ? "не выбрана" : formatNumber(builder.point)}`;
+    }
+    return "Ответ: общей части нет";
+  }
+
+  function graphKindToAnswerKind(kind) {
+    if (kind === "segment") return "interval";
+    if (kind === "ray") return "ray";
+    if (kind === "point") return "point";
+    if (kind === "empty") return "empty";
+    return "interval";
+  }
+
+  function renderAlgebraBuildTask(task) {
+    const stage = state.algebraStages[task.id] || "algebra";
+    if (stage === "build") {
+      return `
+        <div class="stimulus">
+          <span class="status-label">Шаг 2</span>
+          <strong>Теперь построй ответ: ${escapeHtml(buildRelationText(task.correct))}</strong>
+        </div>
+        ${renderBuildRayTask(task, `algebra:${task.id}`, task.correct, task.snapValues)}
+      `;
+    }
+
+    return `
+      <div class="expression-chip">${escapeHtml(task.inequality)}</div>
+      <div class="algebra-step">
+        <label for="algebraAnswer">${escapeHtml(task.reducedPrompt)}</label>
+        <input id="algebraAnswer" class="answer-input" type="text" inputmode="decimal" autocomplete="off" placeholder="число">
+      </div>
+      <p class="small-note">Шаг 1: получи неравенство вида x ... число.</p>
+    `;
+  }
+
+  function renderSystemOverlapTask(task) {
+    const selection = ensureSystemOverlapSelection(task.id);
+    const stage = selection.stage || 1;
+    const zoneCorrect = selection.zone === task.correctZone;
+    const zoneLabel = selection.zone ? systemZoneLabel(selection.zone, task) : "пока не выбрана";
+
+    return `
+      <div class="system-overlap-panel">
+        <div class="expression-chip">${escapeHtml(task.systemLabel)}</div>
+        <div class="system-legend" aria-label="Цвета условий">
+          <span><i class="legend-dot is-first"></i>${escapeHtml(task.first.label)}</span>
+          <span><i class="legend-dot is-second"></i>${escapeHtml(task.second.label)}</span>
+          <span><i class="legend-dot is-common"></i>общая часть</span>
+        </div>
+        ${renderSystemOverlapSteps(task, selection)}
+        ${renderSystemOverlapLine(task, selection)}
+        ${renderSystemOverlapControls(task, selection)}
+        ${stage >= 3 ? `<p class="selected-readout">Выбрано: ${escapeHtml(zoneLabel)}</p>` : ""}
+      </div>
+
+      ${zoneCorrect ? `<div class="notation-panel">
+        <p class="small-note">Шаг 2: выбери запись этой общей части.</p>
+        <div class="notation-grid">
+          ${task.notationOptions
+            .map((option) => `
+              <button class="notation-button ${selection.notation === option.value ? "is-selected" : ""}" type="button" data-action="select-system-notation" data-value="${escapeHtml(option.value)}">
+                ${escapeHtml(option.label)}
+              </button>
+            `)
+            .join("")}
+        </div>
+      </div>` : ""}
+    `;
+  }
+
+  function renderSystemOverlapSteps(task, selection) {
+    const stage = selection.stage || 1;
+    const zoneCorrect = selection.zone === task.correctZone;
+    const rows = [
+      { label: `Первое условие: ${task.first.label}`, done: stage > 1, active: stage === 1 },
+      { label: "Понять синюю штриховку", done: stage > 2, active: stage === 2 },
+      { label: `Второе условие: ${task.second.label}`, done: stage > 3 || zoneCorrect, active: stage === 3 },
+      { label: "Найти наложение", done: zoneCorrect, active: stage >= 3 && !zoneCorrect }
+    ];
+
+    return `
+      <div class="system-overlap-steps">
+        ${rows.map((row, index) => `
+          <div class="system-overlap-step ${row.active ? "is-active" : ""} ${row.done ? "is-done" : ""}">
+            <strong>${index + 1}</strong>
+            <span>${escapeHtml(row.label)}</span>
+          </div>
+        `).join("")}
+      </div>
+    `;
+  }
+
+  function renderSystemOverlapControls(task, selection) {
+    const stage = selection.stage || 1;
+    const zoneCorrect = selection.zone === task.correctZone;
+
+    if (stage === 1) {
+      return `
+        <div class="system-overlap-note">
+          <strong>Построй первое условие: ${escapeHtml(task.first.label)}.</strong>
+          <span>Сейчас на прямой видна только синяя штриховка первого условия.</span>
+        </div>
+        <button class="soft-button" type="button" data-action="advance-system-overlap" data-stage="2">Синяя штриховка понятна</button>
+      `;
+    }
+
+    if (stage === 2) {
+      return `
+        <div class="system-overlap-note">
+          <strong>Синим показаны все числа, которые подходят первому условию.</strong>
+          <span>Теперь добавим второе условие на эту же прямую.</span>
+        </div>
+        <button class="soft-button" type="button" data-action="advance-system-overlap" data-stage="3">Построить второе условие</button>
+      `;
+    }
+
+    return `
+      <div class="system-overlap-note">
+        <strong>${zoneCorrect ? systemOverlapCorrectZoneMessage(task) : "Теперь найди место, где подходят оба условия сразу."}</strong>
+        <span>${zoneCorrect ? "Осталось выбрать правильную запись ответа." : "Ответ системы — только там, где две штриховки наложились друг на друга."}</span>
+      </div>
+      ${!zoneCorrect ? `<p class="small-note">Кликни на участок, где выполняются оба условия одновременно.</p>` : ""}
+      ${!zoneCorrect ? renderSystemZoneButtons(task, selection.zone) : ""}
+    `;
+  }
+
+  function renderSystemOverlapLine(task, selection) {
+    const width = 760;
+    const height = 168;
+    const pad = 44;
+    const axisY = 78;
+    const min = task.min ?? task.first.graph.min ?? -6;
+    const max = task.max ?? task.first.graph.max ?? 6;
+    const [left, right] = task.bounds;
+    const xFor = (value) => pad + ((value - min) / (max - min)) * (width - pad * 2);
+    const ticks = collectTicks(min, max, [left, right], task.snapValues, false);
+    const stage = selection.stage || 1;
+    const showSecond = stage >= 3;
+    const endpointsOverlap = showSecond && nearlyEqual(task.first.graph.endpoint, task.second.graph.endpoint);
+    const firstPointOffset = endpointsOverlap ? -15 : 0;
+    const secondPointOffset = endpointsOverlap ? 15 : 0;
+
+    return `
+      <svg class="number-line system-overlap-line" viewBox="0 0 ${width} ${height}" role="img" aria-label="Система на числовой прямой">
+        <line class="axis-line" x1="${pad}" y1="${axisY}" x2="${width - pad}" y2="${axisY}"></line>
+        <polygon fill="#6d788d" points="${pad - 8},${axisY} ${pad + 4},${axisY - 6} ${pad + 4},${axisY + 6}"></polygon>
+        <polygon fill="#6d788d" points="${width - pad + 8},${axisY} ${width - pad - 4},${axisY - 6} ${width - pad - 4},${axisY + 6}"></polygon>
+        ${ticks
+          .map((tick) => `
+            <line class="tick-line" x1="${xFor(tick)}" y1="${axisY - 12}" x2="${xFor(tick)}" y2="${axisY + 12}"></line>
+            <text class="tick-label" x="${xFor(tick)}" y="${axisY + 42}" text-anchor="middle">${escapeHtml(formatNumber(tick))}</text>
+          `)
+          .join("")}
+        ${showSecond ? renderSystemCommonOverlap(task, xFor, axisY, pad, width) : ""}
+        ${selection.zone ? renderSelectedSystemZone(task, selection.zone, xFor, axisY, pad, width) : ""}
+        ${renderSystemConditionMarkup(task.first.graph, xFor, axisY, pad, width, "first", firstPointOffset)}
+        ${showSecond ? renderSystemConditionMarkup(task.second.graph, xFor, axisY, pad, width, "second", secondPointOffset) : ""}
+        ${showSecond ? renderSystemSvgZones(task, xFor, axisY, pad, width) : ""}
+      </svg>
+    `;
+  }
+
+  function renderSystemCommonOverlap(task, xFor, y, pad, width) {
+    const graph = task.correctGraph;
+    if (!graph || graph.kind === "empty") return "";
+
+    if (graph.kind === "segment") {
+      const leftX = xFor(graph.left);
+      const rightX = xFor(graph.right);
+      return `<rect class="system-common-zone" x="${leftX}" y="${y - 26}" width="${Math.max(0, rightX - leftX)}" height="52"></rect>`;
+    }
+
+    if (graph.kind === "ray") {
+      const startX = xFor(graph.endpoint);
+      const endX = graph.direction === "right" ? width - pad : pad;
+      const x = Math.min(startX, endX);
+      return `<rect class="system-common-zone" x="${x}" y="${y - 26}" width="${Math.abs(endX - startX)}" height="52"></rect>`;
+    }
+
+    if (graph.kind === "point") {
+      return `<circle class="system-common-point" cx="${xFor(graph.endpoint)}" cy="${y}" r="21"></circle>`;
+    }
+
+    return "";
+  }
+
+  function renderSystemConditionMarkup(graph, xFor, y, pad, width, variant, pointYOffset = 0) {
+    const strokeClass = `system-condition-stroke is-${variant}`;
+    const fillClass = `system-condition-fill is-${variant}`;
+    const openClass = `system-condition-point is-open is-${variant}`;
+    const closedClass = `system-condition-point is-closed is-${variant}`;
+
+    if (graph.kind !== "ray") return "";
+
+    const endpointX = xFor(graph.endpoint);
+    const endX = graph.direction === "right" ? width - pad : pad;
+    const arrow = graph.direction === "right"
+      ? `<polygon class="${fillClass}" points="${endX + 8},${y} ${endX - 6},${y - 8} ${endX - 6},${y + 8}"></polygon>`
+      : `<polygon class="${fillClass}" points="${endX - 8},${y} ${endX + 6},${y - 8} ${endX + 6},${y + 8}"></polygon>`;
+    const pointClass = graph.pointType === "closed" ? closedClass : openClass;
+    const pointY = y + pointYOffset;
+
+    return `
+      <line class="${strokeClass}" x1="${endpointX}" y1="${y}" x2="${endX}" y2="${y}"></line>
+      ${arrow}
+      ${pointYOffset ? `<line class="system-point-connector is-${variant}" x1="${endpointX}" y1="${y}" x2="${endpointX}" y2="${pointY}"></line>` : ""}
+      <circle class="${pointClass}" cx="${endpointX}" cy="${pointY}" r="9"></circle>
+    `;
+  }
+
+  function renderSelectedSystemZone(task, selectedZone, xFor, y, pad, width) {
+    if (!selectedZone) return "";
+
+    const [left, right] = task.bounds;
+    const leftX = xFor(left);
+    const rightX = xFor(right);
+
+    const zoneClass = selectedZone === task.correctZone ? "is-correct" : "is-wrong";
+
+    if (selectedZone === "none") {
+      return `<text class="system-none-selected ${zoneClass}" x="${width / 2}" y="${y - 42}" text-anchor="middle">выбрано: общей части нет</text>`;
+    }
+
+    if (left === right) {
+      if (selectedZone === "singlePoint") {
+        return `<circle class="system-selected-point ${zoneClass}" cx="${leftX}" cy="${y}" r="17"></circle>`;
+      }
+      if (selectedZone === "leftRay") {
+        return `<rect class="system-selected-zone ${zoneClass}" x="${pad}" y="${y - 22}" width="${Math.max(0, leftX - pad)}" height="44"></rect>`;
+      }
+      if (selectedZone === "rightRay") {
+        return `<rect class="system-selected-zone ${zoneClass}" x="${leftX}" y="${y - 22}" width="${Math.max(0, width - pad - leftX)}" height="44"></rect>`;
+      }
+      return "";
+    }
+
+    const pointWidth = 26;
+    const zoneMap = {
+      leftRay: { x: pad, width: Math.max(0, leftX - pad) },
+      leftPoint: { x: leftX - pointWidth / 2, width: pointWidth },
+      middle: { x: leftX, width: Math.max(0, rightX - leftX) },
+      rightPoint: { x: rightX - pointWidth / 2, width: pointWidth },
+      rightRay: { x: rightX, width: Math.max(0, width - pad - rightX) }
+    };
+    const zone = zoneMap[selectedZone];
+    if (!zone) return "";
+    return `<rect class="system-selected-zone ${zoneClass}" x="${zone.x}" y="${y - 22}" width="${zone.width}" height="44"></rect>`;
+  }
+
+  function renderSystemSvgZones(task, xFor, y, pad, width) {
+    const [left, right] = task.bounds;
+    const leftX = xFor(left);
+    const rightX = xFor(right);
+
+    if (left === right) {
+      return `
+        ${svgZoneRect("leftRay", pad, y - 34, Math.max(0, leftX - pad - 12), 68)}
+        ${svgZoneRect("singlePoint", leftX - 18, y - 38, 36, 76)}
+        ${svgZoneRect("rightRay", leftX + 12, y - 34, Math.max(0, width - pad - leftX - 12), 68)}
+      `;
+    }
+
+    return `
+      ${svgZoneRect("leftRay", pad, y - 34, Math.max(0, leftX - pad - 13), 68)}
+      ${svgZoneRect("leftPoint", leftX - 17, y - 38, 34, 76)}
+      ${svgZoneRect("middle", leftX + 13, y - 34, Math.max(0, rightX - leftX - 26), 68)}
+      ${svgZoneRect("rightPoint", rightX - 17, y - 38, 34, 76)}
+      ${svgZoneRect("rightRay", rightX + 13, y - 34, Math.max(0, width - pad - rightX - 13), 68)}
+    `;
+  }
+
+  function svgZoneRect(zone, x, y, width, height) {
+    if (width <= 0 || height <= 0) return "";
+    return `<rect class="system-click-zone" x="${x}" y="${y}" width="${width}" height="${height}" data-action="select-system-zone" data-zone="${zone}"></rect>`;
+  }
+
+  function renderSystemZoneButtons(task, selectedZone) {
+    const [left, right] = task.bounds;
+    const zones = left === right
+      ? ["leftRay", "singlePoint", "rightRay", "none"]
+      : ["leftRay", "leftPoint", "middle", "rightPoint", "rightRay", "none"];
+
+    return `
+      <div class="system-zone-grid">
+        ${zones
+          .map((zone) => `
+            <button class="zone-button ${selectedZone === zone ? "is-selected" : ""}" type="button" data-action="select-system-zone" data-zone="${zone}">
+              ${escapeHtml(systemZoneLabel(zone, task))}
+            </button>
+          `)
+          .join("")}
+      </div>
+    `;
+  }
+
+  function systemZoneLabel(zone, task) {
+    const [left, right] = task.bounds;
+    const labels = {
+      leftRay: `левый луч: x < ${formatNumber(left)}`,
+      leftPoint: `левая точка: ${formatNumber(left)}`,
+      middle: `между ${formatNumber(left)} и ${formatNumber(right)}`,
+      rightPoint: `правая точка: ${formatNumber(right)}`,
+      rightRay: `правый луч: x > ${formatNumber(right)}`,
+      singlePoint: `точка ${formatNumber(left)}`,
+      none: "общей части нет"
+    };
+    return labels[zone] || zone;
+  }
+
+  function ensureSystemOverlapSelection(taskId) {
+    if (!state.systemOverlap[taskId]) {
+      state.systemOverlap[taskId] = {
+        stage: 1,
+        zone: null,
+        notation: null
+      };
+    }
+    state.systemOverlap[taskId].stage = state.systemOverlap[taskId].stage || 1;
+    return state.systemOverlap[taskId];
+  }
+
+  function renderSystemTask(task) {
+    const stage = state.systemStages[task.id] || 0;
+    const steps = [
+      { label: `Построй ${task.inequalities[0].label}` },
+      { label: `Построй ${task.inequalities[1].label}` },
+      { label: "Выбери итоговое пересечение" }
+    ];
+
+    const stepList = `
+      <div class="system-steps">
+        ${steps
+          .map((step, index) => `
+            <div class="system-step ${stage === index ? "is-active" : ""} ${stage > index ? "is-done" : ""}">
+              <strong>${index + 1}</strong>
+              <span>${escapeHtml(step.label)}</span>
+            </div>
+          `)
+          .join("")}
+      </div>
+    `;
+
+    if (stage < 2) {
+      const inequality = task.inequalities[stage];
+      return `
+        <div class="expression-chip">${escapeHtml(inequality.label)}</div>
+        ${stepList}
+        ${renderBuildRayTask(task, `system:${task.id}:${stage}`, inequality.correct, inequality.snapValues)}
+      `;
+    }
+
+    const selectedIndex = selectedChoiceIndex(task.id);
+    return `
+      <div class="expression-chip">${escapeHtml(task.systemLabel)}</div>
+      ${stepList}
+      <p class="small-note">Система = оба условия сразу. Решение системы = перекрытие.</p>
+      <div class="choice-grid">
+        ${task.finalOptions
+          .map((option, index) => `
+            <button class="choice-button ${selectedIndex === index ? "is-selected" : ""}" type="button" data-action="select-choice" data-index="${index}">
+              <span class="choice-label">${index + 1}</span>
+              <span class="choice-text">${escapeHtml(option.label)}</span>
+              ${renderNumberLineSvg(option.graph, { compact: true })}
+            </button>
+          `)
+          .join("")}
+      </div>
+    `;
+  }
+
+  function renderSystemDrawTwoConditionsTask(task) {
+    const stage = state.drawStages[task.id] || 0;
+    const steps = [
+      { label: `Построй ${task.inequalities[0].label}` },
+      { label: `Построй ${task.inequalities[1].label}` },
+      { label: "Построй общий ответ" }
+    ];
+
+    if (stage < 2) {
+      const inequality = task.inequalities[stage];
+      return `
+        <div class="expression-chip">${escapeHtml(task.systemLabel)}</div>
+        ${renderDrawSteps(steps, stage)}
+        ${stage > 0 ? `
+          <div class="system-condition-lines">
+            ${task.inequalities.slice(0, stage).map((item, index) => `
+              <div class="stimulus is-compact-line">
+                <span class="status-label">Уже построено ${index + 1}: ${escapeHtml(item.label)}</span>
+                ${renderNumberLineSvg(item.correct)}
+              </div>
+            `).join("")}
+          </div>
+        ` : ""}
+        <div class="draw-line-card">
+          <span class="status-label">Линия ${stage + 1}</span>
+          ${renderBuildRayTask(task, `system-draw:${task.id}:${stage}`, inequality.correct, inequality.snapValues)}
+        </div>
+      `;
+    }
+
+    return `
+      <div class="expression-chip">${escapeHtml(task.systemLabel)}</div>
+      ${renderDrawSteps(steps, stage)}
+      <div class="system-condition-lines">
+        ${task.inequalities.map((item, index) => `
+          <div class="stimulus">
+            <span class="status-label">Условие ${index + 1}: ${escapeHtml(item.label)}</span>
+            ${renderNumberLineSvg(item.correct)}
+          </div>
+        `).join("")}
+      </div>
+      <p class="small-note">Третья линия: построй только общую часть двух решений.</p>
+      ${renderGraphDrawBuilder(`system-final:${task.id}`, task.finalCorrect, task.snapValues, {
+        allowedTypes: task.finalAllowedTypes,
+        defaultType: task.finalDefaultType
+      })}
+    `;
+  }
+
+  function renderSystemDrawIntersectionTask(task) {
+    return `
+      <div class="expression-chip">${escapeHtml(task.systemLabel)}</div>
+      <div class="system-condition-lines">
+        <div class="stimulus">
+          <span class="status-label">${escapeHtml(task.first.label)}</span>
+          ${renderNumberLineSvg(task.first.graph)}
+        </div>
+        <div class="stimulus">
+          <span class="status-label">${escapeHtml(task.second.label)}</span>
+          ${renderNumberLineSvg(task.second.graph)}
+        </div>
+      </div>
+      <p class="small-note">Построй общий ответ: интервал, луч, одну точку или «нет решений».</p>
+      ${renderGraphDrawBuilder(`system-final:${task.id}`, task.finalCorrect, task.snapValues, {
+        allowedTypes: task.finalAllowedTypes,
+        defaultType: task.finalDefaultType
+      })}
+    `;
+  }
+
+  function renderOgeDrawThenChooseTask(task) {
+    const stage = state.drawStages[task.id] || 0;
+    if (stage === 0) {
+      return `
+        <div class="expression-chip">${escapeHtml(task.systemLabel)}</div>
+        ${renderDrawSteps([{ label: "Построй решение сам" }, { label: "Выбери ОГЭ-рисунок" }], 0)}
+        ${renderGraphDrawBuilder(`oge-draw:${task.id}`, task.finalCorrect, task.snapValues, {
+          allowedTypes: task.finalAllowedTypes,
+          defaultType: task.finalDefaultType
+        })}
+      `;
+    }
+
+    const selectedIndex = selectedChoiceIndex(task.id);
+    return `
+      <div class="expression-chip">${escapeHtml(task.systemLabel)}</div>
+      ${renderDrawSteps([{ label: "Построй решение сам" }, { label: "Выбери ОГЭ-рисунок" }], 1)}
+      <p class="small-note">Теперь найди среди четырёх рисунков тот, который совпадает с твоим построением.</p>
+      <div class="choice-grid">
+        ${task.options
+          .map((option, index) => `
+            <button class="choice-button ${selectedIndex === index ? "is-selected" : ""}" type="button" data-action="select-choice" data-index="${index}">
+              <span class="choice-label">${escapeHtml(option.label)}</span>
+              ${renderNumberLineSvg(option.graph, { compact: true })}
+            </button>
+          `)
+          .join("")}
+      </div>
+    `;
+  }
+
+  function renderDrawSteps(steps, activeIndex) {
+    return `
+      <div class="system-steps">
+        ${steps.map((step, index) => `
+          <div class="system-step ${activeIndex === index ? "is-active" : ""} ${activeIndex > index ? "is-done" : ""}">
+            <strong>${index + 1}</strong>
+            <span>${escapeHtml(step.label)}</span>
+          </div>
+        `).join("")}
+      </div>
+    `;
+  }
+
+  function renderAlgebraMicroTask(task) {
+    const stepIndex = state.microStages[task.id] || 0;
+    const step = task.steps[stepIndex] || task.steps[task.steps.length - 1];
+    const completed = task.steps.slice(0, stepIndex);
+
+    return `
+      <div class="expression-chip">${escapeHtml(task.expression)}</div>
+      ${completed.length ? `
+        <div class="micro-done-list">
+          ${completed.map((item) => `<span>${escapeHtml(item.label)} ${escapeHtml(item.displayAnswer || item.answer)}</span>`).join("")}
+        </div>
+      ` : ""}
+      <div class="algebra-step micro-step">
+        <label for="microAnswer">${escapeHtml(step.label)}</label>
+        <input id="microAnswer" class="answer-input" type="text" autocomplete="off" placeholder="ответ">
+      </div>
+      <p class="small-note">Микрошаг ${Math.min(stepIndex + 1, task.steps.length)} / ${task.steps.length}. Здесь важен знак.</p>
+    `;
+  }
+
+  function renderActions(task, meta) {
+    const canShowSolution = meta.wrongAttempts >= 2 || meta.solutionOpen;
+    const isCompleted = Boolean(progress.completedResults[task.id]);
+    const showForward = state.reviewTaskId === task.id && progress.currentTaskIndex + 1 < tasks.length;
+    return `
+      <div class="actions">
+        <button class="ghost-button" type="button" data-action="previous-task" ${progress.currentTaskIndex <= 0 ? "disabled" : ""}>Назад</button>
+        ${showForward ? `<button class="ghost-button" type="button" data-action="jump-next">Вперёд</button>` : ""}
+        <button class="soft-button" type="button" data-action="hint">Подсказка</button>
+        ${canShowSolution ? `<button class="ghost-button" type="button" data-action="show-solution">Показать решение</button>` : ""}
+        <button class="primary-button" type="button" data-action="check">${isCompleted ? "Проверить ещё раз" : "Проверить"}</button>
+      </div>
+    `;
+  }
+
+  function renderTaskComplete(task) {
+    const block = blocksById[task.blockId];
+    elements.taskArea.innerHTML = `
+      ${renderTaskHeader(task, block)}
+      <section class="feedback-panel is-good">
+        <p>${state.feedback ? escapeHtml(state.feedback.message) : "Задание принято. Можно двигаться дальше."}</p>
+      </section>
+      <div class="actions">
+        <button class="ghost-button" type="button" data-action="previous-task" ${progress.currentTaskIndex <= 0 ? "disabled" : ""}>Назад</button>
+        <button class="primary-button" type="button" data-action="next-task">${progress.currentTaskIndex + 1 >= tasks.length ? "Открыть отчёт" : "Следующее задание"}</button>
+      </div>
+    `;
+  }
+
+  function renderSolution(task) {
+    return `
+      <section class="solution-panel">
+        <div class="solution-head">
+          <h3>Решение</h3>
+          <span class="status-label">после попыток</span>
+        </div>
+        <p class="solution-text">${escapeHtml(task.solution || "Решение появится в следующей версии.")}</p>
+      </section>
+    `;
+  }
+
+  function handleClick(event) {
+    const svg = event.target.closest("svg[data-line-key]");
+    if (svg) {
+      handleLineClick(event, svg);
+      return;
+    }
+
+    const button = event.target.closest("[data-action]");
+    if (!button) return;
+
+    const action = button.dataset.action;
+    const task = getCurrentTask();
+
+    if (action === "reset-progress") {
+      resetProgress();
+      return;
+    }
+
+    if (!task && action !== "copy-report" && action !== "jump-block" && action !== "jump-task") return;
+
+    switch (action) {
+      case "jump-block":
+        jumpToBlock(button.dataset.blockId);
+        break;
+      case "jump-task":
+        goToTaskIndex(Number(button.dataset.taskIndex));
+        break;
+      case "previous-task":
+        goToPreviousTask();
+        break;
+      case "jump-next":
+        goToTaskIndex(progress.currentTaskIndex + 1);
+        break;
+      case "select-choice":
+        state.selectedChoice = { taskId: task.id, index: Number(button.dataset.index) };
+        state.feedback = null;
+        render();
+        break;
+      case "builder-field":
+        updateBuilderField(button.dataset.builderKey, button.dataset.field, button.dataset.value);
+        break;
+      case "advance-system-overlap":
+        advanceSystemOverlap(task, Number(button.dataset.stage));
+        break;
+      case "select-system-zone":
+        selectSystemZone(task, button.dataset.zone);
+        break;
+      case "select-system-notation":
+        selectSystemNotation(task, button.dataset.value);
+        break;
+      case "check":
+        checkCurrentTask();
+        break;
+      case "hint":
+        showHint(task);
+        break;
+      case "show-solution":
+        showSolution(task);
+        break;
+      case "open-theory":
+        openTheory(task);
+        break;
+      case "close-theory":
+        closeTheory(task);
+        break;
+      case "next-task":
+        goToNextTask();
+        break;
+      case "copy-report":
+        copyReport();
+        break;
+      default:
+        break;
+    }
+  }
+
+  function handleKeydown(event) {
+    if (event.key !== "Enter") return;
+    if (event.target && (event.target.id === "algebraAnswer" || event.target.id === "microAnswer")) {
+      event.preventDefault();
+      checkCurrentTask();
+    }
+  }
+
+  function handleLineClick(event, svg) {
+    const key = svg.dataset.lineKey;
+    const lineConfig = lineConfigs[key];
+    if (!lineConfig) return;
+
+    const rect = svg.getBoundingClientRect();
+    const viewBoxWidth = Number(svg.getAttribute("viewBox").split(" ")[2]);
+    const xInViewBox = ((event.clientX - rect.left) / rect.width) * viewBoxWidth;
+    const value = xToNearestValue(xInViewBox, lineConfig);
+
+    if (lineConfig.mode === "point") {
+      const task = getCurrentTask();
+      state.pointSelections[task.id] = value;
+    } else if (lineConfig.mode === "builder") {
+      const builder = ensureBuilder(key);
+      builder.endpoint = value;
+    } else if (lineConfig.mode === "draw-builder") {
+      const builder = ensureBuilder(key);
+      const activeField = builder.activeField || (builder.answerKind === "interval" ? "left" : builder.answerKind === "point" ? "point" : "endpoint");
+      builder[activeField] = value;
+    }
+
+    state.feedback = null;
+    render();
+  }
+
+  function xToNearestValue(x, lineConfig) {
+    const rawValue = lineConfig.min + ((x - lineConfig.pad) / (lineConfig.width - lineConfig.pad * 2)) * (lineConfig.max - lineConfig.min);
+    const candidates = lineConfig.snapValues && lineConfig.snapValues.length ? lineConfig.snapValues : buildDefaultSnapValues(lineConfig.min, lineConfig.max);
+    return candidates.reduce((best, current) => (Math.abs(current - rawValue) < Math.abs(best - rawValue) ? current : best), candidates[0]);
+  }
+
+  function updateBuilderField(key, field, value) {
+    const builder = ensureBuilder(key);
+    builder[field] = value === "true" ? true : value === "false" ? false : value;
+    if (field === "answerKind") {
+      builder.activeField = value === "interval" ? "left" : value === "point" ? "point" : "endpoint";
+    }
+    state.feedback = null;
+    render();
+  }
+
+  function advanceSystemOverlap(task, nextStage) {
+    const selection = ensureSystemOverlapSelection(task.id);
+    selection.stage = Math.max(selection.stage || 1, nextStage || 1);
+    if (selection.stage === 2) {
+      state.feedback = {
+        kind: "good",
+        message: "Синим показано решение первого условия. Теперь построй второе условие на этой же прямой."
+      };
+    } else if (selection.stage >= 3) {
+      state.feedback = {
+        kind: "warn",
+        message: "Теперь на прямой видно оба условия. Ответ системы — только там, где они наложились."
+      };
+    } else {
+      state.feedback = null;
+    }
+    render();
+  }
+
+  function selectSystemZone(task, zone) {
+    const selection = ensureSystemOverlapSelection(task.id);
+    if ((selection.stage || 1) < 3) return;
+    selection.zone = zone;
+    selection.notation = null;
+    selection.stage = Math.max(selection.stage || 1, 4);
+    const zoneCorrect = zone === task.correctZone;
+    if (zoneCorrect) {
+      state.feedback = {
+        kind: "good",
+        message: systemOverlapCorrectZoneMessage(task)
+      };
+    } else {
+      const errorType = systemOverlapErrorType(task, selection, false);
+      state.feedback = {
+        kind: "bad",
+        message: systemOverlapZoneFeedback(task, zone, errorType)
+      };
+    }
+    render();
+  }
+
+  function systemOverlapCorrectZoneMessage(task) {
+    if (task.correctGraph.kind === "empty") {
+      return "Да. Общей части нет: две штриховки не накладываются.";
+    }
+    if (task.correctGraph.kind === "point") {
+      return "Да. Общая часть — одна точка, которая подходит обоим условиям.";
+    }
+    return "Да. Это общая часть двух условий. Здесь оба условия выполняются одновременно.";
+  }
+
+  function systemOverlapFinalMessage(task) {
+    if (task.correctGraph.kind === "empty") {
+      return "Да. У этой системы нет общей части.";
+    }
+    if (task.correctGraph.kind === "point") {
+      return "Да. Ответ системы — одна точка.";
+    }
+    return "Да. Здесь оба условия выполняются одновременно.";
+  }
+
+  function systemOverlapZoneFeedback(task, zone, errorType) {
+    const [left, right] = task.bounds;
+    const zonePlace = {
+      leftRay: `Левее ${formatNumber(left)}`,
+      leftPoint: `В точке ${formatNumber(left)}`,
+      middle: left === right ? `В точке ${formatNumber(left)}` : `Между ${formatNumber(left)} и ${formatNumber(right)}`,
+      rightPoint: `В точке ${formatNumber(right)}`,
+      rightRay: `Правее ${formatNumber(right)}`,
+      singlePoint: `В точке ${formatNumber(left)}`
+    }[zone] || "Здесь";
+
+    if (errorType === "only_first_condition_error") {
+      return `${zonePlace} работает первое условие, но второе не выполняется. Система требует оба условия сразу.`;
+    }
+
+    if (errorType === "only_second_condition_error") {
+      return `${zonePlace} работает второе условие, но первое не выполняется. Найди место, где совпадают обе штриховки.`;
+    }
+
+    if (errorType === "system_union_instead_intersection_error") {
+      return "Ты выбрал всё, что подходит хотя бы одному условию. Но система требует оба условия одновременно. Нужно выбрать только наложение.";
+    }
+
+    if (errorType === "endpoint_inclusion_error") {
+      return "Проверь знак у границы: > или < — точка пустая, ≥ или ≤ — точка закрашенная.";
+    }
+
+    if (errorType === "false_no_solution_error") {
+      const checkText = task.checkNumber
+        ? ` Например, ${task.checkNumber} подходит и ${task.first.label}, и ${task.second.label}.`
+        : " Проверь число внутри пересечения: оно должно подходить обоим условиям.";
+      return `Общая часть есть.${checkText}`;
+    }
+
+    if (errorType === "missed_single_point_solution") {
+      return `Общая часть — не отрезок, а одна точка. Число ${formatNumber(left)} подходит обоим условиям.`;
+    }
+
+    if (errorType === "no_solution_error") {
+      return "У этой системы нет общей зоны: штриховки не накладываются так, чтобы оба условия выполнялись сразу.";
+    }
+
+    return errorMessage(errorType, task);
+  }
+
+  function selectSystemNotation(task, notation) {
+    const selection = ensureSystemOverlapSelection(task.id);
+    if (selection.zone !== task.correctZone) {
+      state.feedback = {
+        kind: "warn",
+        message: "Сначала найди общую часть на прямой. Запись выбираем только после правильного участка."
+      };
+      render();
+      return;
+    }
+    selection.notation = notation;
+    state.feedback = null;
+    render();
+  }
+
+  function ensureBuilder(key) {
+    if (!state.builders[key]) {
+      state.builders[key] = {
+        pointType: "open",
+        direction: "right",
+        endpoint: null,
+        leftType: "open",
+        rightType: "open",
+        left: null,
+        right: null,
+        point: null,
+        spanSelected: false,
+        activeField: "endpoint"
+      };
+    }
+    return state.builders[key];
+  }
+
+  function selectedChoiceIndex(taskId) {
+    return state.selectedChoice && state.selectedChoice.taskId === taskId ? state.selectedChoice.index : null;
+  }
+
+  function checkCurrentTask() {
+    const task = getCurrentTask();
+    if (!task) return;
+
+    switch (task.type) {
+      case "graph_choice":
+      case "segment_choice":
+      case "notation_choice":
+        checkGraphChoice(task);
+        break;
+      case "text_choice":
+        checkTextChoice(task);
+        break;
+      case "point_placement":
+        checkPointPlacement(task);
+        break;
+      case "build_ray":
+      case "number_line_draw_ray":
+        checkBuilderTask(task, `build:${task.id}`, task.correct, task.snapValues);
+        break;
+      case "number_line_draw_interval":
+        checkGraphBuilderTask(task, `interval:${task.id}`, task.correct, task.snapValues);
+        break;
+      case "algebra_build":
+        checkAlgebraBuild(task);
+        break;
+      case "system_overlap":
+        checkSystemOverlapTask(task);
+        break;
+      case "system_draw_two_conditions":
+        checkSystemDrawTwoConditionsTask(task);
+        break;
+      case "system_draw_intersection":
+        checkSystemDrawIntersectionTask(task);
+        break;
+      case "oge13_draw_then_choose_graph":
+        checkOgeDrawThenChooseTask(task);
+        break;
+      case "algebra_expand_negative_brackets":
+      case "algebra_transfer_sign":
+      case "algebra_combine_constants":
+      case "algebra_line_control":
+        checkAlgebraMicroTask(task);
+        break;
+      case "system_basic":
+        checkSystemTask(task);
+        break;
+      default:
+        break;
+    }
+  }
+
+  function checkGraphChoice(task) {
+    const index = selectedChoiceIndex(task.id);
+    if (index === null || index === undefined || !task.options[index]) {
+      state.feedback = { kind: "warn", message: "Сначала выбери один вариант." };
+      render();
+      return;
+    }
+
+    const selected = task.options[index];
+    const result = evaluateGraphLike(selected.graph, task.correct, task);
+    recordAttempt(task, selected.label, formatGraphAnswer(task.correct), result.correct, result.errorType);
+
+    if (result.correct) {
+      completeTask(task, "Верно. Ты сопоставил знак, точку и направление.");
+    } else {
+      showWrongFeedback(task, result.errorType);
+    }
+  }
+
+  function checkTextChoice(task) {
+    const index = selectedChoiceIndex(task.id);
+    if (index === null || index === undefined || !task.options[index]) {
+      state.feedback = { kind: "warn", message: "Выбери один из вариантов." };
+      render();
+      return;
+    }
+
+    const selected = task.options[index];
+    const isCorrect = selected.value === task.correctValue;
+    recordAttempt(task, selected.label, task.correctAnswerText || task.correctValue, isCorrect, isCorrect ? "" : task.errorType);
+
+    if (isCorrect) {
+      completeTask(task, "Да, порядок на прямой выбран верно.");
+    } else {
+      showWrongFeedback(task, task.errorType);
+    }
+  }
+
+  function checkPointPlacement(task) {
+    const selected = state.pointSelections[task.id];
+    if (selected === undefined) {
+      state.feedback = { kind: "warn", message: "Сначала нажми на число на прямой." };
+      render();
+      return;
+    }
+
+    const isCorrect = nearlyEqual(selected, task.targetPoint.endpoint);
+    recordAttempt(task, formatNumber(selected), formatNumber(task.targetPoint.endpoint), isCorrect, isCorrect ? "" : task.errorType);
+
+    if (isCorrect) {
+      completeTask(task, "Точка стоит там, где нужно.");
+    } else {
+      showWrongFeedback(task, task.errorType);
+    }
+  }
+
+  function checkBuilderTask(task, key, correct, snapValues, onSuccess) {
+    const builder = ensureBuilder(key);
+    if (builder.endpoint === null || builder.endpoint === undefined) {
+      state.feedback = { kind: "warn", message: "Сначала выбери число на прямой." };
+      render();
+      return false;
+    }
+
+    const userGraph = makeRay(builder.endpoint, builder.pointType, builder.direction, correct.min, correct.max);
+    const result = evaluateGraphLike(userGraph, correct, task);
+    recordAttempt(task, formatGraphAnswer(userGraph), formatGraphAnswer(correct), result.correct, result.errorType);
+
+    if (result.correct) {
+      if (onSuccess) {
+        onSuccess();
+      } else {
+        completeTask(task, "Построение совпало с ответом.");
+      }
+      return true;
+    }
+
+    showWrongFeedback(task, result.errorType);
+    return false;
+  }
+
+  function checkAlgebraBuild(task) {
+    const stage = state.algebraStages[task.id] || "algebra";
+    if (stage === "build") {
+      checkBuilderTask(task, `algebra:${task.id}`, task.correct, task.snapValues);
+      return;
+    }
+
+    const input = document.getElementById("algebraAnswer");
+    const value = parseNumberInput(input ? input.value : "");
+    if (value === null) {
+      state.feedback = { kind: "warn", message: "Введи число. Можно через запятую или дробью, например 1,5 или 3/2." };
+      render();
+      return;
+    }
+
+    const isCorrect = nearlyEqual(value, task.algebraAnswer);
+    recordAttempt(task, formatNumber(value), formatNumber(task.algebraAnswer), isCorrect, isCorrect ? "" : "algebra_move_error");
+
+    if (isCorrect) {
+      state.algebraStages[task.id] = "build";
+      state.feedback = { kind: "good", message: "Алгебраический шаг верный. Теперь перенеси это на прямую." };
+      render();
+    } else {
+      showWrongFeedback(task, "algebra_move_error");
+    }
+  }
+
+  function checkSystemOverlapTask(task) {
+    const selection = ensureSystemOverlapSelection(task.id);
+
+    if ((selection.stage || 1) < 3) {
+      state.feedback = { kind: "warn", message: "Сначала добавь оба условия на одну прямую, чтобы увидеть наложение." };
+      render();
+      return;
+    }
+
+    if (!selection.zone) {
+      state.feedback = { kind: "warn", message: "Сначала кликни общую часть на прямой или кнопку «общей части нет»." };
+      render();
+      return;
+    }
+
+    const zoneCorrect = selection.zone === task.correctZone;
+    if (!zoneCorrect) {
+      const errorType = systemOverlapErrorType(task, selection, false);
+      recordAttempt(task, systemZoneLabel(selection.zone, task), task.correctNotation, false, errorType);
+      showWrongFeedback(task, errorType);
+      return;
+    }
+
+    if (!selection.notation) {
+      state.feedback = { kind: "warn", message: "Теперь выбери запись промежутка." };
+      render();
+      return;
+    }
+
+    const notationCorrect = selection.notation === task.correctNotation;
+    const isCorrect = notationCorrect;
+    const errorType = isCorrect ? "" : systemOverlapErrorType(task, selection, true);
+
+    recordAttempt(
+      task,
+      `${systemZoneLabel(selection.zone, task)} → ${selection.notation}`,
+      task.correctNotation,
+      isCorrect,
+      errorType
+    );
+
+    if (isCorrect) {
+      completeTask(task, systemOverlapFinalMessage(task));
+    } else {
+      showWrongFeedback(task, errorType);
+    }
+  }
+
+  function systemOverlapErrorType(task, selection, zoneCorrect) {
+    if (!zoneCorrect) {
+      if (selection.zone === "none") {
+        return task.correctGraph.kind === "point" ? "missed_single_point_solution" : "false_no_solution_error";
+      }
+      return task.zoneErrorTags?.[selection.zone] || "intersection_error";
+    }
+
+    const option = task.notationOptions.find((item) => item.value === selection.notation);
+    if (option && option.errorTag) return option.errorTag;
+    if (task.correctGraph.kind === "point") return "missed_single_point_solution";
+    return "endpoint_inclusion_error";
+  }
+
+  function checkGraphBuilderTask(task, key, correct, snapValues, onSuccess) {
+    const builder = ensureBuilder(key);
+    const missing = drawBuilderMissingMessage(builder, correct);
+    if (missing) {
+      state.feedback = { kind: "warn", message: missing };
+      render();
+      return false;
+    }
+
+    const userGraph = graphFromDrawBuilder(builder, correct);
+    const result = evaluateDrawnGraph(userGraph, builder, correct, task);
+    recordAttempt(task, formatGraphAnswer(userGraph), formatGraphAnswer(correct), result.correct, result.errorType);
+
+    if (result.correct) {
+      if (onSuccess) {
+        onSuccess();
+      } else {
+        completeTask(task, "Построение принято: все компоненты совпали.");
+      }
+      return true;
+    }
+
+    showWrongFeedback(task, result.errorType);
+    return false;
+  }
+
+  function drawBuilderMissingMessage(builder, correct) {
+    if (builder.answerKind === "empty") return "";
+    if (builder.answerKind === "ray") {
+      if (builder.endpoint === null || builder.endpoint === undefined) return "Кликни границу луча на прямой.";
+      return "";
+    }
+    if (builder.answerKind === "interval") {
+      if (builder.left === null || builder.left === undefined) return "Выбери левую границу промежутка.";
+      if (builder.right === null || builder.right === undefined) return "Выбери правую границу промежутка.";
+      if (!builder.spanSelected) return "Нажми «выделить между границами», чтобы показать сам промежуток.";
+      return "";
+    }
+    if (builder.answerKind === "point") {
+      if (builder.point === null || builder.point === undefined) return "Кликни точку на прямой.";
+      return "";
+    }
+    return "Выбери тип ответа.";
+  }
+
+  function evaluateDrawnGraph(userGraph, builder, correctGraph, task) {
+    if (correctGraph.kind === "segment") {
+      if (builder.answerKind === "empty") return { correct: false, errorType: "false_no_solution_error" };
+      if (builder.answerKind !== "interval" || userGraph.kind !== "segment") return { correct: false, errorType: "interval_side_error" };
+      if (!nearlyEqual(builder.left, correctGraph.left)) return { correct: false, errorType: "wrong_left_endpoint" };
+      if (!nearlyEqual(builder.right, correctGraph.right)) return { correct: false, errorType: "wrong_right_endpoint" };
+      if (builder.leftType !== correctGraph.leftType || builder.rightType !== correctGraph.rightType) {
+        return { correct: false, errorType: "endpoint_inclusion_error" };
+      }
+      if (!builder.spanSelected) return { correct: false, errorType: "interval_side_error" };
+      return { correct: true, errorType: "" };
+    }
+
+    if (correctGraph.kind === "ray") {
+      if (builder.answerKind === "empty") return { correct: false, errorType: "false_no_solution_error" };
+      if (builder.answerKind !== "ray" || userGraph.kind !== "ray") return { correct: false, errorType: "intersection_error" };
+      return evaluateGraphLike(userGraph, correctGraph, {
+        endpointErrorType: task.endpointErrorType || "wrong_endpoint",
+        pointErrorType: task.pointErrorType || "endpoint_inclusion_error"
+      });
+    }
+
+    if (correctGraph.kind === "point") {
+      if (builder.answerKind === "empty") return { correct: false, errorType: "missed_single_point_solution" };
+      if (builder.answerKind !== "point" || userGraph.kind !== "point") return { correct: false, errorType: "missed_single_point_solution" };
+      return { correct: nearlyEqual(userGraph.endpoint, correctGraph.endpoint), errorType: nearlyEqual(userGraph.endpoint, correctGraph.endpoint) ? "" : "wrong_endpoint" };
+    }
+
+    if (correctGraph.kind === "empty") {
+      return { correct: builder.answerKind === "empty", errorType: builder.answerKind === "empty" ? "" : "no_solution_error" };
+    }
+
+    return evaluateGraphLike(userGraph, correctGraph, task);
+  }
+
+  function checkSystemDrawTwoConditionsTask(task) {
+    const stage = state.drawStages[task.id] || 0;
+
+    if (stage < 2) {
+      const inequality = task.inequalities[stage];
+      checkBuilderTask(
+        task,
+        `system-draw:${task.id}:${stage}`,
+        inequality.correct,
+        inequality.snapValues,
+        () => {
+          state.drawStages[task.id] = stage + 1;
+          state.feedback = { kind: "good", message: stage === 0 ? "Первое условие построено. Теперь второе." : "Оба условия построены. Теперь построй общую часть." };
+          render();
+        }
+      );
+      return;
+    }
+
+    checkSystemFinalDraw(task, `system-final:${task.id}`);
+  }
+
+  function checkSystemDrawIntersectionTask(task) {
+    checkSystemFinalDraw(task, `system-final:${task.id}`);
+  }
+
+  function checkSystemFinalDraw(task, key, onSuccess) {
+    const builder = ensureBuilder(key);
+    const missing = drawBuilderMissingMessage(builder, task.finalCorrect);
+    if (missing) {
+      state.feedback = { kind: "warn", message: missing };
+      render();
+      return false;
+    }
+
+    const userGraph = graphFromDrawBuilder(builder, task.finalCorrect);
+    const result = evaluateSystemDrawFinal(task, userGraph, builder);
+    recordAttempt(task, formatGraphAnswer(userGraph), formatGraphAnswer(task.finalCorrect), result.correct, result.errorType);
+
+    if (result.correct) {
+      if (onSuccess) onSuccess();
+      else completeTask(task, "Общий ответ построен верно.");
+      return true;
+    }
+
+    showWrongFeedback(task, result.errorType);
+    return false;
+  }
+
+  function evaluateSystemDrawFinal(task, userGraph, builder) {
+    const correct = task.finalCorrect;
+
+    if (correct.kind !== "empty" && builder.answerKind === "empty") {
+      return { correct: false, errorType: correct.kind === "point" ? "missed_single_point_solution" : "false_no_solution_error" };
+    }
+
+    if (correct.kind === "empty") {
+      if (builder.answerKind === "empty") return { correct: true, errorType: "" };
+      if (task.first && graphsSame(userGraph, task.first.graph)) return { correct: false, errorType: "only_first_condition_error" };
+      if (task.second && graphsSame(userGraph, task.second.graph)) return { correct: false, errorType: "only_second_condition_error" };
+      if (task.inequalities) {
+        if (graphsSame(userGraph, task.inequalities[0].correct)) return { correct: false, errorType: "only_first_condition_error" };
+        if (graphsSame(userGraph, task.inequalities[1].correct)) return { correct: false, errorType: "only_second_condition_error" };
+      }
+      return { correct: false, errorType: "no_solution_error" };
+    }
+
+    // В некоторых системах итоговая общая часть совпадает с одним из исходных условий:
+    // x > 2 и x > 5 -> итог x > 5; x < 2 и x < 5 -> итог x < 2.
+    // Поэтому сначала проверяем финальный ответ, а уже потом ругаемся на «только первое/второе условие».
+    const finalResult = evaluateDrawnGraph(userGraph, builder, correct, task);
+    if (finalResult.correct) return finalResult;
+
+    if (task.inequalities) {
+      if (graphsSame(userGraph, task.inequalities[0].correct)) return { correct: false, errorType: "only_first_condition_error" };
+      if (graphsSame(userGraph, task.inequalities[1].correct)) return { correct: false, errorType: "only_second_condition_error" };
+    }
+
+    return finalResult;
+  }
+
+  function checkOgeDrawThenChooseTask(task) {
+    const stage = state.drawStages[task.id] || 0;
+    if (stage === 0) {
+      checkSystemFinalDraw(task, `oge-draw:${task.id}`, () => {
+        state.drawStages[task.id] = 1;
+        state.feedback = { kind: "good", message: "Своё построение верное. Теперь выбери такой же ОГЭ-рисунок." };
+        render();
+      });
+      return;
+    }
+
+    checkGraphChoice(task);
+  }
+
+  function checkAlgebraMicroTask(task) {
+    const stepIndex = state.microStages[task.id] || 0;
+    const step = task.steps[stepIndex];
+    const input = document.getElementById("microAnswer");
+    const value = input ? input.value : "";
+    const isCorrect = normalizeAlgebraText(value) === normalizeAlgebraText(step.answer);
+    recordAttempt(task, value, step.displayAnswer || step.answer, isCorrect, isCorrect ? "" : step.errorType);
+
+    if (isCorrect) {
+      if (stepIndex + 1 >= task.steps.length) {
+        completeTask(task, "Микрошаги собраны верно. Знаки на месте.");
+      } else {
+        state.microStages[task.id] = stepIndex + 1;
+        state.feedback = { kind: "good", message: "Этот шаг верный. Идём дальше." };
+        render();
+      }
+    } else {
+      showWrongFeedback(task, step.errorType);
+    }
+  }
+
+  function normalizeAlgebraText(value) {
+    return String(value || "")
+      .toLowerCase()
+      .replaceAll("−", "-")
+      .replaceAll(" ", "")
+      .replaceAll("*", "")
+      .replaceAll("·", "")
+      .replaceAll("=", "=");
+  }
+
+  function checkSystemTask(task) {
+    const stage = state.systemStages[task.id] || 0;
+
+    if (stage < 2) {
+      const inequality = task.inequalities[stage];
+      checkBuilderTask(
+        task,
+        `system:${task.id}:${stage}`,
+        inequality.correct,
+        inequality.snapValues,
+        () => {
+          state.systemStages[task.id] = stage + 1;
+          state.feedback = {
+            kind: "good",
+            message: stage === 0 ? "Первое неравенство построено. Теперь второе." : "Оба неравенства построены. Осталось выбрать общую часть."
+          };
+          render();
+        }
+      );
+      return;
+    }
+
+    const index = selectedChoiceIndex(task.id);
+    if (index === null || index === undefined || !task.finalOptions[index]) {
+      state.feedback = { kind: "warn", message: "Выбери итоговое пересечение." };
+      render();
+      return;
+    }
+
+    const selected = task.finalOptions[index];
+    const result = evaluateSystemFinal(selected.graph, task.finalCorrect);
+    recordAttempt(task, selected.label, formatGraphAnswer(task.finalCorrect), result.correct, result.errorType);
+
+    if (result.correct) {
+      completeTask(task, "Верно. Общая часть найдена.");
+    } else {
+      showWrongFeedback(task, result.errorType);
+    }
+  }
+
+  function evaluateGraphLike(userGraph, correctGraph, task) {
+    if (!userGraph || !correctGraph || userGraph.kind !== correctGraph.kind) {
+      if (correctGraph && correctGraph.kind === "empty") {
+        return { correct: false, errorType: "no_solution_error" };
+      }
+      return { correct: false, errorType: "intersection_error" };
+    }
+
+    if (correctGraph.kind === "ray") {
+      const endpointWrong = !nearlyEqual(userGraph.endpoint, correctGraph.endpoint);
+      const directionWrong = userGraph.direction !== correctGraph.direction;
+      const pointWrong = userGraph.pointType !== correctGraph.pointType;
+
+      if (!endpointWrong && !directionWrong && !pointWrong) {
+        return { correct: true, errorType: "" };
+      }
+
+      if (task.bothErrorEnabled && directionWrong && pointWrong && !endpointWrong) {
+        return { correct: false, errorType: "both_error" };
+      }
+      if (endpointWrong) return { correct: false, errorType: task.endpointErrorType || "endpoint_error" };
+      if (directionWrong) return { correct: false, errorType: "direction_error" };
+      if (pointWrong) return { correct: false, errorType: task.pointErrorType || "point_error" };
+    }
+
+    if (correctGraph.kind === "segment") {
+      const endpointWrong = !nearlyEqual(userGraph.left, correctGraph.left) || !nearlyEqual(userGraph.right, correctGraph.right);
+      const bracketWrong = userGraph.leftType !== correctGraph.leftType || userGraph.rightType !== correctGraph.rightType;
+
+      if (!endpointWrong && !bracketWrong) {
+        return { correct: true, errorType: "" };
+      }
+      if (endpointWrong) return { correct: false, errorType: task.endpointErrorType || "endpoint_error" };
+      if (bracketWrong) return { correct: false, errorType: task.pointErrorType || "bracket_error" };
+    }
+
+    if (correctGraph.kind === "empty") {
+      return { correct: userGraph.kind === "empty", errorType: userGraph.kind === "empty" ? "" : "no_solution_error" };
+    }
+
+    return { correct: false, errorType: "endpoint_error" };
+  }
+
+  function evaluateSystemFinal(userGraph, correctGraph) {
+    if (correctGraph.kind === "empty") {
+      return {
+        correct: userGraph.kind === "empty",
+        errorType: userGraph.kind === "empty" ? "" : "no_solution_error"
+      };
+    }
+
+    if (userGraph.kind === "empty") {
+      return { correct: false, errorType: "intersection_error" };
+    }
+
+    return evaluateGraphLike(userGraph, correctGraph, { pointErrorType: "point_error" });
+  }
+
+  function recordAttempt(task, userAnswer, correctAnswer, isCorrect, errorType) {
+    const meta = getTaskMeta(task);
+    meta.attempts += 1;
+    if (!isCorrect) meta.wrongAttempts += 1;
+    saveProgress();
+
+    logEvent(task, {
+      userAnswer,
+      correctAnswer,
+      isCorrect,
+      errorType: errorType || "",
+      attemptNumber: meta.attempts
+    });
+  }
+
+  function completeTask(task, message) {
+    const meta = getTaskMeta(task);
+    const result = {
+      taskId: task.id,
+      blockId: task.blockId,
+      taskType: task.type,
+      usedHint: Boolean(meta.usedHint),
+      openedTheory: Boolean(meta.openedTheory),
+      viewedSolution: Boolean(meta.viewedSolution),
+      attempts: meta.attempts,
+      wrongAttempts: meta.wrongAttempts,
+      timeSpentSeconds: Math.round((Date.now() - meta.startedAt) / 1000),
+      completedAt: new Date().toISOString()
+    };
+
+    progress.completedResults[task.id] = result;
+    state.awaitingNextTaskId = task.id;
+    state.feedback = { kind: "good", message };
+    saveProgress();
+    render();
+  }
+
+  function showWrongFeedback(task, errorType) {
+    const meta = getTaskMeta(task);
+    const tail = meta.wrongAttempts >= 2 ? " Можно открыть решение и спокойно сверить шаги." : " Попробуй ещё раз, без спешки.";
+    state.feedback = {
+      kind: "bad",
+      message: `${errorMessage(errorType, task)}${tail}`
+    };
+    render();
+  }
+
+  function errorMessage(errorType, task) {
+    const checkNumberText = task && task.checkNumber ? ` Например, число ${task.checkNumber} подходит обоим условиям.` : " Проверь одно число из общей части: оно должно подходить обоим условиям.";
+    const messages = {
+      direction_error: "Проверь направление: больше идёт вправо, меньше идёт влево.",
+      point_error: "Проверь тип точки: строгие знаки > и < дают пустую точку, ≥ и ≤ дают закрашенную.",
+      endpoint_error: "Проверь число на прямой: граница должна стоять ровно на нужном числе.",
+      both_error: "Тут одновременно сбились направление и тип точки. Сначала реши: вправо или влево, потом — пустая или закрашенная.",
+      bracket_error: "Проверь скобку: круглая значит число не входит, квадратная значит входит.",
+      fraction_order_error: "Проверь порядок чисел: переведи дробь в десятичное число и сравни положение на прямой.",
+      algebra_move_error: "Проверь перенос числа. Когда число переходит на другую сторону, его знак меняется.",
+      intersection_error: "Проверь перекрытие: системе подходят только те числа, которые попали в обе штриховки.",
+      no_solution_error: "Проверь, есть ли общая часть. Иногда система не имеет решений.",
+      system_union_instead_intersection_error: "Ты выбрал объединение: всё, что подходит хотя бы одному условию. В системе нужна только общая часть, где выполняются оба условия сразу.",
+      only_first_condition_error: "Здесь работает первое условие, но второе не выполняется. Система требует оба условия сразу.",
+      only_second_condition_error: "Здесь работает второе условие, но первое не выполняется. Найди место, где совпадают обе штриховки.",
+      endpoint_inclusion_error: "Проверь знак у границы: > или < — точка пустая, ≥ или ≤ — точка закрашенная.",
+      false_no_solution_error: `Общая часть есть.${checkNumberText}`,
+      missed_single_point_solution: "Общая часть — не отрезок, а одна точка. Это число подходит обоим условиям.",
+      wrong_endpoint: "Граница выбрана не на том числе. Сначала найди число из условия на прямой.",
+      wrong_left_endpoint: "Левая граница промежутка выбрана не там. Проверь первое число в записи промежутка.",
+      wrong_right_endpoint: "Правая граница промежутка выбрана не там. Проверь второе число в записи промежутка.",
+      interval_side_error: "Промежуток должен быть именно участком между двумя границами, а не лучом и не отдельной точкой.",
+      sign_transfer_error: "При переносе через знак равенства знак меняется: плюс становится минусом, минус становится плюсом.",
+      minus_before_brackets_error: "Перед скобкой стоит отрицательный множитель: он влияет на каждый член внутри скобки.",
+      distribution_sign_error: "Проверь распределение множителя по скобке: умножить нужно каждый член и сохранить знак.",
+      negative_times_negative_error: "Отрицательное число на отрицательное даёт плюс.",
+      combine_constants_error: "Собирай числовые части отдельно: сначала посчитай только числа.",
+      copying_error: "Строка переписана с искажением. Сначала перенеси правую часть без изменений.",
+      attention_drift_error: "Похоже, внимание уехало на соседний знак или коэффициент. Проверь, какая часть относится к x.",
+      negative_division_flip_error: "При делении неравенства на отрицательное число знак неравенства переворачивается."
+    };
+    return messages[errorType] || "Ответ пока не совпал с нужным. Посмотри на число, точку и направление.";
+  }
+
+  function showHint(task) {
+    const meta = updateTaskMeta(task, { usedHint: true });
+    state.feedback = { kind: "warn", message: task.hint || "Сначала найди границу, потом реши вопрос с точкой и направлением." };
+    logEvent(task, {
+      userAnswer: "hint",
+      correctAnswer: "",
+      isCorrect: null,
+      errorType: "",
+      attemptNumber: meta.attempts
+    });
+    render();
+  }
+
+  function showSolution(task) {
+    const meta = updateTaskMeta(task, { viewedSolution: true, solutionOpen: true });
+    logEvent(task, {
+      userAnswer: "viewed_solution",
+      correctAnswer: task.solution || "",
+      isCorrect: null,
+      errorType: "",
+      attemptNumber: meta.attempts
+    });
+    state.feedback = { kind: "warn", message: "Решение открыто. Можно разобрать его и затем попробовать построить ответ самому." };
+    render();
+  }
+
+  function openTheory(task) {
+    const meta = updateTaskMeta(task, { theoryPanelOpen: true, openedTheory: true });
+    logEvent(task, {
+      userAnswer: "opened_theory",
+      correctAnswer: "",
+      isCorrect: null,
+      errorType: "",
+      attemptNumber: meta.attempts
+    });
+    state.feedback = null;
+    render();
+  }
+
+  function closeTheory(task) {
+    updateTaskMeta(task, { theoryPanelOpen: false });
+    state.feedback = null;
+    render();
+  }
+
+  function jumpToBlock(blockId) {
+    const index = tasks.findIndex((task) => task.blockId === blockId);
+    if (index >= 0) goToTaskIndex(index);
+  }
+
+  function goToPreviousTask() {
+    if (progress.currentTaskIndex <= 0) return;
+    goToTaskIndex(progress.currentTaskIndex - 1);
+  }
+
+  function goToTaskIndex(index) {
+    const boundedIndex = Math.max(0, Math.min(index, tasks.length));
+    progress.currentTaskIndex = boundedIndex;
+    const task = tasks[boundedIndex];
+    state = createFreshState({
+      reviewTaskId: task && progress.completedResults[task.id] ? task.id : null
+    });
+    saveProgress();
+    render();
+    elements.taskArea.focus();
+  }
+
+  function goToNextTask() {
+    if (state.awaitingNextTaskId) {
+      progress.currentTaskIndex += 1;
+    } else if (state.reviewTaskId) {
+      progress.currentTaskIndex += 1;
+    }
+    state = createFreshState();
+    saveProgress();
+    render();
+    elements.taskArea.focus();
+  }
+
+  function resetProgress() {
+    const ok = window.confirm("Сбросить прогресс и локальный журнал тренировки?");
+    if (!ok) return;
+
+    progress = createFreshProgress();
+    sessionLog = [];
+    state = createFreshState();
+    saveProgress();
+    saveLog();
+    sessionStorage.removeItem(storageKeys.session);
+    sessionId = getOrCreateSessionId();
+    render();
+  }
+
+  function logEvent(task, payload) {
+    const meta = getTaskMeta(task);
+    const event = {
+      timestamp: new Date().toISOString(),
+      sessionId,
+      studentName: getStudentName(),
+      blockId: task.blockId,
+      taskId: task.id,
+      taskType: task.type,
+      prompt: task.prompt,
+      userAnswer: normalizeLogValue(payload.userAnswer),
+      correctAnswer: normalizeLogValue(payload.correctAnswer),
+      isCorrect: payload.isCorrect,
+      errorType: payload.errorType || "",
+      usedHint: Boolean(meta.usedHint),
+      openedTheory: Boolean(meta.openedTheory),
+      viewedSolution: Boolean(meta.viewedSolution),
+      attemptNumber: payload.attemptNumber === undefined ? meta.attempts : payload.attemptNumber,
+      timeSpentSeconds: Math.round((Date.now() - meta.startedAt) / 1000)
+    };
+
+    sessionLog.push(event);
+    saveLog();
+    sendEventToGoogleSheets(event);
+  }
+
+  function normalizeLogValue(value) {
+    if (value === null || value === undefined) return "";
+    if (typeof value === "string") return value;
+    return JSON.stringify(value);
+  }
+
+  async function sendEventToGoogleSheets(event) {
+    const endpoint = window.GOOGLE_SHEETS_ENDPOINT || "";
+    if (!endpoint) {
+      console.info("Google Sheets endpoint не задан. Событие сохранено локально.", event);
+      return;
+    }
+
+    try {
+      await fetch(endpoint, {
+        method: "POST",
+        mode: "no-cors",
+        headers: {
+          "Content-Type": "text/plain;charset=utf-8"
+        },
+        body: JSON.stringify(event)
+      });
+    } catch (error) {
+      console.warn("Не удалось отправить событие в Google Sheets:", error);
+    }
+  }
+
+  window.sendEventToGoogleSheets = sendEventToGoogleSheets;
+
+  function renderReport() {
+    const report = buildReport();
+    elements.taskArea.innerHTML = `
+      <section class="task-header">
+        <div>
+          <span class="mission-badge">Отчёт</span>
+          <h2 class="task-title">OGE RAID — отчёт по миссии №13</h2>
+          <p class="task-subtitle">Ученик: ${escapeHtml(report.studentName)}</p>
+        </div>
+        <div class="task-counter">${report.correct}/${report.total}</div>
+      </section>
+      ${renderFeedback()}
+
+      <section class="report-grid">
+        ${renderReportStat("Время", report.durationText)}
+        ${renderReportStat("Всего заданий", report.total)}
+        ${renderReportStat("Верно", report.correct)}
+        ${renderReportStat("Самостоятельно", report.independent)}
+        ${renderReportStat("С подсказкой", report.withHint)}
+        ${renderReportStat("Открывал теорию", report.openedTheory)}
+        ${renderReportStat("Показал решение", report.viewedSolution)}
+      </section>
+
+      <h3 class="task-subtitle" style="margin-top: 24px;">Ошибки по типам</h3>
+      <section class="error-list">
+        ${Object.entries(report.errorCounts)
+          .map(([type, count]) => `
+            <div class="error-item">
+              <span>${escapeHtml(type)}</span>
+              <strong>${count}</strong>
+            </div>
+          `)
+          .join("")}
+      </section>
+
+      <section class="recommendation">
+        <span class="status-label">Вывод</span>
+        <p>${escapeHtml(report.recommendation)}</p>
+      </section>
+
+      <div class="actions">
+        <button class="primary-button" type="button" data-action="copy-report">Скопировать отчёт для Game Master</button>
+        <button class="ghost-button" type="button" data-action="reset-progress">Начать заново</button>
+      </div>
+    `;
+  }
+
+  function renderReportStat(label, value) {
+    return `
+      <div class="report-stat">
+        <span>${escapeHtml(label)}</span>
+        <strong>${escapeHtml(String(value))}</strong>
+      </div>
+    `;
+  }
+
+  function buildReport() {
+    const results = Object.values(progress.completedResults || {}).filter((result) => taskIds.has(result.taskId));
+    const relevantEvents = sessionLog.filter((event) => taskIds.has(event.taskId));
+    const errorCounts = Object.fromEntries(Object.keys(errorLabels).map((type) => [type, 0]));
+
+    relevantEvents.forEach((event) => {
+      if (event.isCorrect === false && event.errorType && errorCounts[event.errorType] !== undefined) {
+        errorCounts[event.errorType] += 1;
+      }
+    });
+
+    const durationSeconds = results.reduce((sum, result) => sum + (result.timeSpentSeconds || 0), 0);
+    const report = {
+      studentName: getStudentName(),
+      durationText: formatDuration(durationSeconds),
+      total: tasks.length,
+      correct: results.length,
+      independent: results.filter((result) => !result.usedHint && !result.viewedSolution && result.wrongAttempts === 0).length,
+      withHint: results.filter((result) => result.usedHint).length,
+      openedTheory: results.filter((result) => result.openedTheory).length,
+      viewedSolution: results.filter((result) => result.viewedSolution).length,
+      errorCounts
+    };
+
+    report.recommendation = buildRecommendation(errorCounts);
+    report.text = buildReportText(report);
+    return report;
+  }
+
+  function buildRecommendation(errorCounts) {
+    const rules = [
+      ["direction_error", "Есть смысл дать ещё задания на больше/меньше и движение вправо/влево."],
+      ["point_error", "Нужно потренировать пустую и закрашенную точку для строгих и нестрогих знаков."],
+      ["bracket_error", "Стоит повторить круглые и квадратные скобки в промежутках."],
+      ["fraction_order_error", "Лучше отдельно повторить дроби и десятичные числа на прямой."],
+      ["algebra_move_error", "Нужна короткая серия на перенос чисел в линейных неравенствах."],
+      ["intersection_error", "Стоит вернуться к системам и идее общей части двух штриховок."],
+      ["no_solution_error", "Полезно разобрать случаи, где пересечения нет и ответом будет «нет решений»."],
+      ["system_union_instead_intersection_error", "Нужно отдельно развести идеи объединения и пересечения: в системе ищем только общую часть."],
+      ["only_first_condition_error", "Стоит потренировать проверку выбранного участка сразу по двум условиям, а не только по первому."],
+      ["only_second_condition_error", "Стоит потренировать проверку выбранного участка сразу по двум условиям, а не только по второму."],
+      ["endpoint_inclusion_error", "Нужно повторить включённость границ: строгий знак, нестрогий знак и скобки."],
+      ["false_no_solution_error", "Полезно давать проверочное число из пересечения перед выбором «нет решений»."],
+      ["missed_single_point_solution", "Нужно отдельно разобрать системы, где ответ — одна точка, например x = 3."],
+      ["wrong_endpoint", "Нужно вернуться к выбору границы на числовой прямой."],
+      ["wrong_left_endpoint", "Нужно потренировать левую границу промежутка."],
+      ["wrong_right_endpoint", "Нужно потренировать правую границу промежутка."],
+      ["interval_side_error", "Стоит отдельно строить именно участок между двумя границами."],
+      ["sign_transfer_error", "Нужна короткая серия на перенос с изменением знака."],
+      ["minus_before_brackets_error", "Нужно повторить минус и отрицательный множитель перед скобками."],
+      ["distribution_sign_error", "Стоит потренировать распределение множителя по каждому члену скобки."],
+      ["negative_times_negative_error", "Нужно повторить правило: минус на минус даёт плюс."],
+      ["combine_constants_error", "Полезно отдельно собирать числовые части без x."],
+      ["copying_error", "Нужно замедлиться на переписывании строки без изменений."],
+      ["attention_drift_error", "Нужны короткие задания на удержание знаков и коэффициентов в строке."],
+      ["negative_division_flip_error", "Нужно отдельно тренировать деление неравенства на отрицательное число."]
+    ];
+
+    const sorted = rules
+      .map(([type, text]) => ({ type, text, count: errorCounts[type] || 0 }))
+      .sort((a, b) => b.count - a.count);
+
+    if (!sorted[0] || sorted[0].count === 0) {
+      return "Ошибок по ключевым типам пока нет. Можно переходить к следующей версии тренажёра.";
+    }
+
+    return sorted[0].text;
+  }
+
+  function buildReportText(report) {
+    const errorLines = Object.entries(report.errorCounts)
+      .map(([type, count]) => `${type} — ${count}`)
+      .join("\n");
+
+    return [
+      "OGE RAID — отчёт по миссии №13",
+      `Ученик: ${report.studentName}`,
+      `Время: ${report.durationText}`,
+      `Всего заданий: ${report.total}`,
+      `Верно: ${report.correct}`,
+      `Самостоятельно: ${report.independent}`,
+      `С подсказкой: ${report.withHint}`,
+      `Открывал теорию: ${report.openedTheory}`,
+      `Показал решение: ${report.viewedSolution}`,
+      "",
+      "Ошибки по типам:",
+      errorLines,
+      "",
+      "Вывод:",
+      report.recommendation
+    ].join("\n");
+  }
+
+  function copyReport() {
+    const report = buildReport();
+    const done = () => {
+      state.feedback = { kind: "good", message: "Отчёт скопирован. Его можно отправить Game Master." };
+      renderReport();
+    };
+
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(report.text).then(done).catch(() => fallbackCopy(report.text, done));
+    } else {
+      fallbackCopy(report.text, done);
+    }
+  }
+
+  function fallbackCopy(text, done) {
+    const textarea = document.createElement("textarea");
+    textarea.value = text;
+    textarea.setAttribute("readonly", "");
+    textarea.className = "screen-reader-only";
+    document.body.appendChild(textarea);
+    textarea.select();
+    document.execCommand("copy");
+    textarea.remove();
+    done();
+  }
+
+  function renderNumberLineSvg(graph, options = {}) {
+    const width = options.compact ? 520 : 760;
+    const height = options.compact ? 118 : 138;
+    const pad = options.compact ? 34 : 44;
+    const y = options.compact ? 56 : 66;
+    const min = options.min ?? graph?.min ?? -6;
+    const max = options.max ?? graph?.max ?? 6;
+    const xFor = (value) => pad + ((value - min) / (max - min)) * (width - pad * 2);
+
+    const endpoints = collectEndpoints(graph);
+    const highlightValues = options.highlightValues || [];
+    const ticks = collectTicks(min, max, [...endpoints, ...highlightValues], options.snapValues, options.compact);
+    const labelTicks = selectVisibleTickLabels(ticks, [...endpoints, ...highlightValues], xFor, options.compact);
+
+    if (options.interactive && options.lineKey) {
+      lineConfigs[options.lineKey] = {
+        min,
+        max,
+        pad,
+        width,
+        mode: options.mode,
+        snapValues: options.snapValues
+      };
+    }
+
+    const graphMarkup = graph ? renderGraphMarkup(graph, xFor, y, pad, width) : "";
+    const dataAttrs = options.interactive ? `data-line-key="${escapeHtml(options.lineKey)}" data-line-mode="${escapeHtml(options.mode)}"` : "";
+
+    return `
+      <svg class="number-line" viewBox="0 0 ${width} ${height}" role="img" aria-label="Числовая прямая" ${dataAttrs}>
+        <line class="axis-line" x1="${pad}" y1="${y}" x2="${width - pad}" y2="${y}"></line>
+        <polygon fill="#6d788d" points="${pad - 8},${y} ${pad + 4},${y - 6} ${pad + 4},${y + 6}"></polygon>
+        <polygon fill="#6d788d" points="${width - pad + 8},${y} ${width - pad - 4},${y - 6} ${width - pad - 4},${y + 6}"></polygon>
+        ${ticks
+          .map((tick) => `
+            <line class="tick-line" x1="${xFor(tick)}" y1="${y - 10}" x2="${xFor(tick)}" y2="${y + 10}"></line>
+          `)
+          .join("")}
+        ${labelTicks
+          .map((tick) => `
+            <text class="tick-label" x="${xFor(tick)}" y="${y + 34}" text-anchor="middle">${escapeHtml(labelForTick(tick, graph, options))}</text>
+          `)
+          .join("")}
+        ${graphMarkup}
+        ${options.interactive ? `<rect class="hit-zone" x="${pad}" y="${y - 34}" width="${width - pad * 2}" height="68"></rect>` : ""}
+      </svg>
+    `;
+  }
+
+  function renderGraphMarkup(graph, xFor, y, pad, width) {
+    if (!graph || graph.kind === "blank") return "";
+
+    if (graph.kind === "ray") {
+      const endpointX = xFor(graph.endpoint);
+      const endX = graph.direction === "right" ? width - pad : pad;
+      const arrow = graph.direction === "right"
+        ? `<polygon class="solution-fill" points="${endX + 8},${y} ${endX - 6},${y - 8} ${endX - 6},${y + 8}"></polygon>`
+        : `<polygon class="solution-fill" points="${endX - 8},${y} ${endX + 6},${y - 8} ${endX + 6},${y + 8}"></polygon>`;
+      const pointClass = graph.pointType === "closed" ? "closed-point" : "open-point";
+      return `
+        <line class="solution-stroke" x1="${endpointX}" y1="${y}" x2="${endX}" y2="${y}"></line>
+        ${arrow}
+        <circle class="${pointClass}" cx="${endpointX}" cy="${y}" r="10"></circle>
+      `;
+    }
+
+    if (graph.kind === "segment") {
+      const leftX = xFor(graph.left);
+      const rightX = xFor(graph.right);
+      const leftClass = graph.leftType === "closed" ? "closed-point" : "open-point";
+      const rightClass = graph.rightType === "closed" ? "closed-point" : "open-point";
+      return `
+        <line class="solution-stroke" x1="${leftX}" y1="${y}" x2="${rightX}" y2="${y}"></line>
+        <circle class="${leftClass}" cx="${leftX}" cy="${y}" r="10"></circle>
+        <circle class="${rightClass}" cx="${rightX}" cy="${y}" r="10"></circle>
+      `;
+    }
+
+    if (graph.kind === "point") {
+      const pointX = xFor(graph.endpoint);
+      return `<circle class="target-point" cx="${pointX}" cy="${y}" r="10"></circle>`;
+    }
+
+    if (graph.kind === "empty") {
+      return `<text class="line-empty-text" x="${(pad + width - pad) / 2}" y="${y - 18}" text-anchor="middle">нет общей части</text>`;
+    }
+
+    return "";
+  }
+
+  function collectEndpoints(graph) {
+    if (!graph) return [];
+    if (graph.kind === "ray" || graph.kind === "point") return [graph.endpoint];
+    if (graph.kind === "segment") return [graph.left, graph.right];
+    return [];
+  }
+
+  function collectTicks(min, max, endpoints, snapValues, compact) {
+    const values = [];
+    if (snapValues && !compact) {
+      values.push(...snapValues);
+    } else {
+      for (let value = Math.ceil(min); value <= Math.floor(max); value += 1) {
+        values.push(value);
+      }
+    }
+    values.push(...endpoints);
+    return uniqueSorted(values.filter((value) => value >= min && value <= max));
+  }
+
+  function buildDefaultSnapValues(min, max) {
+    const values = [];
+    for (let value = Math.ceil(min); value <= Math.floor(max); value += 1) values.push(value);
+    return values.length ? values : [min, max];
+  }
+
+  function selectVisibleTickLabels(ticks, priorityValues, xFor, compact) {
+    const minSpacing = compact ? 48 : 56;
+    const prioritySet = new Set((priorityValues || []).map((value) => Number(value.toFixed(6))));
+    const selected = [];
+    const candidates = ticks
+      .map((value, order) => ({
+        value,
+        order,
+        x: xFor(value),
+        priority: prioritySet.has(Number(value.toFixed(6))) ? 2 : 1
+      }))
+      .sort((a, b) => b.priority - a.priority || a.order - b.order);
+
+    candidates.forEach((candidate) => {
+      const tooClose = selected.some((item) => Math.abs(item.x - candidate.x) < minSpacing);
+      if (!tooClose) selected.push(candidate);
+    });
+
+    return selected.sort((a, b) => a.order - b.order).map((item) => item.value);
+  }
+
+  function labelForTick(value, graph, options = {}) {
+    const highlight = (options.highlightValues || []).find((item) => nearlyEqual(item, value));
+    if (highlight !== undefined) return formatNumber(value);
+    if (graph && graph.kind === "ray" && nearlyEqual(value, graph.endpoint) && graph.endpointLabel) return graph.endpointLabel;
+    if (graph && graph.kind === "point" && nearlyEqual(value, graph.endpoint) && graph.endpointLabel) return graph.endpointLabel;
+    return formatNumber(value);
+  }
+
+  function uniqueSorted(values) {
+    return [...new Set(values.map((value) => Number(value.toFixed(6))))].sort((a, b) => a - b);
+  }
+
+  function formatGraphAnswer(graph) {
+    if (!graph) return "";
+    if (graph.kind === "ray") {
+      return {
+        kind: "ray",
+        endpoint: graph.endpoint,
+        pointType: graph.pointType,
+        direction: graph.direction
+      };
+    }
+    if (graph.kind === "segment") {
+      return {
+        kind: "segment",
+        left: graph.left,
+        right: graph.right,
+        leftType: graph.leftType,
+        rightType: graph.rightType
+      };
+    }
+    if (graph.kind === "point") return { kind: "point", endpoint: graph.endpoint };
+    if (graph.kind === "empty") return { kind: "empty" };
+    return graph;
+  }
+
+  function graphsSame(a, b) {
+    return evaluateGraphLike(a, b, {}).correct;
+  }
+
+  function buildRelationText(graph) {
+    const sign = graph.direction === "right"
+      ? graph.pointType === "closed" ? "≥" : ">"
+      : graph.pointType === "closed" ? "≤" : "<";
+    return `x ${sign} ${formatNumber(graph.endpoint)}`;
+  }
+
+  function parseNumberInput(raw) {
+    const normalized = String(raw || "").trim().replace(",", ".").replace(/\s+/g, "");
+    if (!normalized) return null;
+
+    if (/^-?\d+\/-?\d+$/.test(normalized)) {
+      const [numerator, denominator] = normalized.split("/").map(Number);
+      if (denominator === 0) return null;
+      return numerator / denominator;
+    }
+
+    const value = Number(normalized);
+    return Number.isFinite(value) ? value : null;
+  }
+
+  function nearlyEqual(a, b) {
+    return Math.abs(Number(a) - Number(b)) < 0.0001;
+  }
+
+  function formatNumber(value) {
+    const number = Number(value);
+    if (!Number.isFinite(number)) return String(value);
+    if (Number.isInteger(number)) return String(number);
+    return String(Number(number.toFixed(2))).replace(".", ",");
+  }
+
+  function formatDuration(totalSeconds) {
+    const seconds = Math.max(0, Math.round(totalSeconds));
+    const minutes = Math.floor(seconds / 60);
+    const rest = seconds % 60;
+    if (minutes <= 0) return `${rest} сек`;
+    return `${minutes} мин ${rest} сек`;
+  }
+
+  function escapeHtml(value) {
+    return String(value)
+      .replaceAll("&", "&amp;")
+      .replaceAll("<", "&lt;")
+      .replaceAll(">", "&gt;")
+      .replaceAll('"', "&quot;")
+      .replaceAll("'", "&#039;");
+  }
+})();
